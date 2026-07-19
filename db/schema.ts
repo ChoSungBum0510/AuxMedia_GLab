@@ -59,6 +59,13 @@ export const notices = sqliteTable("notices", {
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
 
+export const loginAttempts = sqliteTable("login_attempts", {
+  attemptKey: text("attempt_key").primaryKey(),
+  attempts: integer("attempts").notNull().default(0),
+  windowStartedAt: integer("window_started_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+});
+
 export type CourseRecord = typeof courses.$inferSelect;
 export type ApplicationRecord = typeof applications.$inferSelect;
 export type ReviewRecord = typeof reviews.$inferSelect;

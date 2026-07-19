@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "glab-integrated-support",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-07-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": true,
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "public"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "glab-integrated-support",
+      "database_id": "a8b4f5ea-0d81-4e36-b486-5f53a25bb904",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "vars": {
+    "ADMIN_EMAILS": "mini293920@gmail.com",
+    "NEXT_PUBLIC_LMS_URL": "https://aux-lead-lms.mini293920.workers.dev"
+  },
+  "placement": {
+    "mode": "smart"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

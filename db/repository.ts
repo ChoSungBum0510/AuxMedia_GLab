@@ -74,6 +74,13 @@ async function initializeDatabase() {
       published INTEGER NOT NULL DEFAULT 1,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`),
+    d1.prepare(`CREATE TABLE IF NOT EXISTS login_attempts (
+      attempt_key TEXT PRIMARY KEY NOT NULL,
+      attempts INTEGER NOT NULL DEFAULT 0,
+      window_started_at INTEGER NOT NULL,
+      updated_at INTEGER NOT NULL
+    )`),
+    d1.prepare("CREATE INDEX IF NOT EXISTS login_attempts_updated_idx ON login_attempts(updated_at)"),
   ]);
 
   const row = await d1.prepare("SELECT COUNT(*) AS count FROM courses").first<{ count: number }>();
@@ -175,6 +182,18 @@ export async function listApplicationsForEmail(email: string) {
     .from(applications)
     .where(eq(applications.email, email))
     .orderBy(desc(applications.createdAt));
+}
+
+export async function findApplicantIdentity(email: string, phone: string) {
+  await ensureDatabase();
+  const normalizedPhone = phone.replace(/\D/gu, "");
+  const rows = await getDb()
+    .select({ name: applications.name, email: applications.email, phone: applications.phone })
+    .from(applications)
+    .where(eq(applications.email, email.toLowerCase()))
+    .orderBy(desc(applications.createdAt))
+    .limit(30);
+  return rows.find((row) => row.phone.replace(/\D/gu, "") === normalizedPhone) ?? null;
 }
 
 export async function listAllApplications() {

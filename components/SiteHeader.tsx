@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { chatGPTSignInPath, chatGPTSignOutPath, getChatGPTUser } from "../app/chatgpt-auth";
+import { getCurrentUser, signInPath, signOutPath } from "../app/auth";
 import { isAdminEmail } from "../lib/auth";
 import { BrandLogo } from "./BrandLogo";
 
@@ -11,7 +11,7 @@ const navigation = [
 ];
 
 export async function SiteHeader() {
-  const user = await getChatGPTUser();
+  const user = await getCurrentUser();
 
   return (
     <header className="site-header">
@@ -28,11 +28,11 @@ export async function SiteHeader() {
           {user ? (
             <>
               <Link href="/mypage" className="header-account">내 학습</Link>
-              {isAdminEmail(user.email) && <Link href="/admin">관리자</Link>}
-              <Link href={chatGPTSignOutPath("/")} className="header-login">로그아웃</Link>
+              {user.role === "admin" && isAdminEmail(user.email) && <Link href="/admin">관리자</Link>}
+              <Link href={signOutPath("/")} className="header-login">로그아웃</Link>
             </>
           ) : (
-            <Link href={chatGPTSignInPath("/mypage")} className="header-login">로그인</Link>
+            <Link href={signInPath("/mypage")} className="header-login">로그인</Link>
           )}
           <details className="mobile-menu">
             <summary aria-label="전체 메뉴 열기"><span /><span /><span /></summary>
@@ -40,7 +40,7 @@ export async function SiteHeader() {
               {navigation.map((item) => (
                 <Link key={item.href} href={item.href}>{item.label}</Link>
               ))}
-              <Link href={user ? "/mypage" : chatGPTSignInPath("/mypage")}>{user ? "내 학습" : "로그인"}</Link>
+              <Link href={user ? "/mypage" : signInPath("/mypage")}>{user ? "내 학습" : "로그인"}</Link>
             </div>
           </details>
         </div>

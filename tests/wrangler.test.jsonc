@@ -20,5 +20,10 @@
       "database_name": "site-creator-d1",
       "database_id": "00000000-0000-4000-8000-000000000000"
     }
-  ]
+  ],
+  "vars": {
+    "ADMIN_EMAILS": "admin@example.com",
+    "SESSION_SECRET": "test-session-secret-with-at-least-thirty-two-characters",
+    "ADMIN_PASSWORD": "test-admin-password-is-long-enough"
+  }
 }

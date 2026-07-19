@@ -52,9 +52,39 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.match(html, /href="\/regions\/jeongseon"/);
   assert.match(html, /href="\/regions\/donghae"/);
   assert.match(html, /href="\/regions\/inje"/);
-  assert.doesNotMatch(html, /G:Lab|M Campus|엠 캠퍼스/i);
+  assert.match(html, /map-region-shape--jeongseon/);
+  assert.match(html, /map-region-shape--donghae/);
+  assert.match(html, /map-region-shape--inje/);
+  assert.doesNotMatch(html, /G:Lab|M Campus|엠 캠퍼스|chatgpt/i);
   assert.match(html, /통합 LMS 바로가기/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(response.headers.get("x-frame-options"), "DENY");
+});
+
+test("renders platform-independent login and all regional detail routes", async () => {
+  const login = await render("/login?returnTo=%2Fmypage");
+  assert.equal(login.status, 200);
+  const loginHtml = await login.text();
+  assert.match(loginHtml, /나의 신청내역 확인/);
+  assert.match(loginHtml, /관리자/);
+  assert.doesNotMatch(loginHtml, /chatgpt/i);
+
+  for (const region of ["jeongseon", "donghae", "inje"]) {
+    const response = await render(`/regions/${region}`);
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), new RegExp(`/brand/glab-${region}\\.png`));
+  }
+});
+
+test("rejects invalid administrator credentials", async () => {
+  const response = await fetch(`${origin}/api/auth/login/admin`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: origin },
+    body: JSON.stringify({ email: "admin@example.com", password: "incorrect-password-value" }),
+  });
+  assert.equal(response.status, 401);
+  assert.doesNotMatch(response.headers.get("set-cookie") ?? "", /glab_session/);
 });
 
 test("server-renders the public course directory", async () => {

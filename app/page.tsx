@@ -2,6 +2,8 @@ import Link from "next/link";
 import { CourseCard } from "../components/CourseCard";
 import { RegionMap } from "../components/RegionMap";
 import { SectionHeading } from "../components/SectionHeading";
+import { BrandLogo } from "../components/BrandLogo";
+import { RegionBadge } from "../components/RegionBadge";
 import { fallbackCourseRecords, fallbackReviews, LMS_URL, notices, regionMap, regions, type RegionSlug } from "../lib/content";
 import { listCourses, listPublishedReviews } from "../db/repository";
 
@@ -19,7 +21,7 @@ export default async function HomePage() {
         <div className="home-hero__shade" aria-hidden="true" />
         <div className="home-hero__content shell">
           <span className="hero-kicker">HALLYM REGIONAL LEARNING NETWORK</span>
-          <h1>배움이 지역을 바꾸는 순간,<br /><strong>G<span>:</span>Lab</strong>이 함께합니다.</h1>
+          <h1>배움이 지역을 바꾸는 순간,<br /><span className="home-hero__brand-line"><BrandLogo className="official-brand--hero" /><span>이 함께합니다.</span></span></h1>
           <p>정선·동해·인제에서 열리는 교육과정과 신청, 온라인 학습, 수강후기를 이제 한곳에서 만나보세요.</p>
           <div className="hero-actions">
             <Link className="button button--white" href="#regional-map">지역 교육 찾기 <span>↓</span></Link>
@@ -30,7 +32,7 @@ export default async function HomePage() {
           <div className="shell">
             {regions.map((region, index) => (
               <Link key={region.slug} href={`/regions/${region.slug}`}>
-                <span>0{index + 1}</span><strong>{region.koreanName}</strong><small>{region.eyebrow.split(" · ")[0]}</small><b>↗</b>
+                <span className="hero-region-bar__index">0{index + 1}</span><RegionBadge region={region} compact /><b>↗</b>
               </Link>
             ))}
           </div>

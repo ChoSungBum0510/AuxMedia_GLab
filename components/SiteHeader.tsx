@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { chatGPTSignInPath, chatGPTSignOutPath, getChatGPTUser } from "../app/chatgpt-auth";
 import { isAdminEmail } from "../lib/auth";
+import { BrandLogo } from "./BrandLogo";
 
 const navigation = [
   { href: "/regions", label: "지역 GLab" },
@@ -15,9 +16,8 @@ export async function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link className="brand" href="/" aria-label="GLab 통합 지원 홈">
-          <span className="brand__word">G<span>:</span>Lab</span>
-          <small>지역교육 통합지원</small>
+        <Link className="brand" href="/" aria-label="한림 G Lab 통합 지원 홈">
+          <BrandLogo priority />
         </Link>
         <nav className="desktop-nav" aria-label="주요 메뉴">
           {navigation.map((item) => (

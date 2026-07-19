@@ -44,6 +44,15 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.match(html, /정선/);
   assert.match(html, /동해/);
   assert.match(html, /인제/);
+  assert.match(html, /\/brand\/hallym-glab\.png/);
+  assert.match(html, /\/brand\/gangwon-map-clean\.png/);
+  assert.match(html, /\/brand\/glab-jeongseon\.png/);
+  assert.match(html, /\/brand\/glab-donghae\.png/);
+  assert.match(html, /\/brand\/glab-inje\.png/);
+  assert.match(html, /href="\/regions\/jeongseon"/);
+  assert.match(html, /href="\/regions\/donghae"/);
+  assert.match(html, /href="\/regions\/inje"/);
+  assert.doesNotMatch(html, /G:Lab|M Campus|엠 캠퍼스/i);
   assert.match(html, /통합 LMS 바로가기/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });

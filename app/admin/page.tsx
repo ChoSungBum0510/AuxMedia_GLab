@@ -7,13 +7,14 @@ import { getDb } from "../../db";
 import { ensureDatabase, listAllApplications, listCourses } from "../../db/repository";
 import { reviews } from "../../db/schema";
 import { isAdminEmail } from "../../lib/auth";
+import { BrandLogo } from "../../components/BrandLogo";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "관리자" };
 
 export default async function AdminPage() {
   const user = await getChatGPTUser();
-  if (!user) return <section className="auth-gate auth-gate--admin"><div><span className="brand__word">G<span>:</span>Lab</span><h1>관리자 로그인</h1><p>교육과정, 신청자와 수강후기를 통합 관리합니다.</p><Link className="button button--wide" href={chatGPTSignInPath("/admin")}>관리자 계정으로 로그인</Link></div></section>;
+  if (!user) return <section className="auth-gate auth-gate--admin"><div><BrandLogo className="official-brand--auth" /><h1>관리자 로그인</h1><p>교육과정, 신청자와 수강후기를 통합 관리합니다.</p><Link className="button button--wide" href={chatGPTSignInPath("/admin")}>관리자 계정으로 로그인</Link></div></section>;
   if (!isAdminEmail(user.email)) return <section className="auth-gate auth-gate--admin"><div><span className="eyebrow">ACCESS DENIED</span><h1>관리자 권한이 없습니다.</h1><p>사이트 소유자에게 관리자 계정 등록을 요청해 주세요.</p><Link href="/" className="button">홈으로 돌아가기</Link></div></section>;
 
   await ensureDatabase();

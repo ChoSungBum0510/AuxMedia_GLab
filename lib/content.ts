@@ -20,6 +20,7 @@ export type RegionInfo = {
   stats: { value: string; label: string }[];
   image: string;
   imagePosition: string;
+  logo: string;
 };
 
 export const regions: RegionInfo[] = [
@@ -44,6 +45,7 @@ export const regions: RegionInfo[] = [
     ],
     image: "/images/glab-hero.png",
     imagePosition: "center",
+    logo: "/brand/glab-jeongseon.png",
   },
   {
     slug: "donghae",
@@ -66,6 +68,7 @@ export const regions: RegionInfo[] = [
     ],
     image: "/images/glab-digital-lab.jpg",
     imagePosition: "center",
+    logo: "/brand/glab-donghae.png",
   },
   {
     slug: "inje",
@@ -88,6 +91,7 @@ export const regions: RegionInfo[] = [
     ],
     image: "/images/glab-hero.png",
     imagePosition: "60% center",
+    logo: "/brand/glab-inje.png",
   },
 ];
 

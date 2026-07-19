@@ -3,6 +3,7 @@ import Link from "next/link";
 import { chatGPTSignInPath, chatGPTSignOutPath, getChatGPTUser } from "../chatgpt-auth";
 import { listApplicationsForEmail, listCourses } from "../../db/repository";
 import { LMS_URL, regionMap, type RegionSlug } from "../../lib/content";
+import { BrandLogo } from "../../components/BrandLogo";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "나의 학습" };
@@ -11,7 +12,7 @@ const statusLabels: Record<string, string> = { received: "접수 완료", review
 
 export default async function MyPage() {
   const user = await getChatGPTUser();
-  if (!user) return <section className="auth-gate"><div><span className="brand__word">G<span>:</span>Lab</span><h1>로그인하고<br />나의 학습을 이어가세요.</h1><p>신청내역, 선발 상태와 온라인 수강 정보를 확인할 수 있습니다.</p><Link className="button button--wide" href={chatGPTSignInPath("/mypage")}>ChatGPT 계정으로 로그인</Link><small>로그인은 안전한 플랫폼 인증 화면에서 진행됩니다.</small></div></section>;
+  if (!user) return <section className="auth-gate"><div><BrandLogo className="official-brand--auth" /><h1>로그인하고<br />나의 학습을 이어가세요.</h1><p>신청내역, 선발 상태와 온라인 수강 정보를 확인할 수 있습니다.</p><Link className="button button--wide" href={chatGPTSignInPath("/mypage")}>ChatGPT 계정으로 로그인</Link><small>로그인은 안전한 플랫폼 인증 화면에서 진행됩니다.</small></div></section>;
 
   const [applications, courses] = await Promise.all([listApplicationsForEmail(user.email).catch(() => []), listCourses().catch(() => [])]);
   return (

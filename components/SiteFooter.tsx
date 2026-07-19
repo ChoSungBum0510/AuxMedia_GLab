@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LMS_URL, regions } from "../lib/content";
+import { BrandLogo } from "./BrandLogo";
 
 export function SiteFooter() {
   return (
@@ -16,9 +17,8 @@ export function SiteFooter() {
       </div>
       <div className="footer-main shell">
         <div className="footer-brand">
-          <Link className="brand brand--footer" href="/">
-            <span className="brand__word">G<span>:</span>Lab</span>
-            <small>지역교육 통합지원</small>
+          <Link className="brand brand--footer" href="/" aria-label="한림 G Lab 통합 지원 홈">
+            <BrandLogo />
           </Link>
           <p>지역의 배움과 기회를 하나로 연결합니다.</p>
         </div>

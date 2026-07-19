@@ -1,48 +1,48 @@
+import Image from "next/image";
 import Link from "next/link";
 import { regionMap, regions } from "../lib/content";
 import { RegionBadge } from "./RegionBadge";
 
 const positions = {
-  inje: { top: "24%", left: "35%" },
-  donghae: { top: "56%", left: "70%" },
-  jeongseon: { top: "67%", left: "39%" },
+  inje: { top: "31%", left: "61%" },
+  donghae: { top: "67%", left: "83%" },
+  jeongseon: { top: "75%", left: "66%" },
 };
 
 export function RegionMap() {
   return (
     <div className="region-map-layout">
       <div className="map-stage" aria-label="GLab 교육 지역 지도">
-        <div className="map-grid" aria-hidden="true" />
-        <div className="map-silhouette" aria-hidden="true">
-          <span className="terrain-line terrain-line--one" />
-          <span className="terrain-line terrain-line--two" />
-          <span className="terrain-line terrain-line--three" />
-        </div>
-        {regions.map((region) => {
-          const pinStyle: React.CSSProperties & { "--region-color": string } = {
-            ...positions[region.slug],
-            "--region-color": region.color,
-          };
-          return (
-            <Link
-              key={region.slug}
-              href={`/regions/${region.slug}`}
-              className={`map-pin map-pin--${region.slug}`}
-              style={pinStyle}
-              aria-label={`${region.koreanName} GLab 교육 상세 보기`}
-            >
-              <span className="map-pin__pulse" aria-hidden="true" />
-              <span className="map-pin__dot" aria-hidden="true" />
-              <span className="map-pin__label">
-                <strong>{region.koreanName}</strong>
-                <small>GLab 보기 →</small>
-              </span>
-            </Link>
-          );
-        })}
-        <div className="map-caption" aria-hidden="true">
-          <span>EAST SEA</span>
-          <span>GANGWON</span>
+        <div className="map-canvas">
+          <Image
+            className="map-base"
+            src="/brand/gangwon-map-clean.png"
+            alt="강원특별자치도 행정구역 지도"
+            width={1365}
+            height={1152}
+            unoptimized
+            sizes="(max-width: 1100px) 100vw, 760px"
+          />
+          {regions.map((region) => {
+            const pinStyle: React.CSSProperties & { "--region-color": string } = {
+              ...positions[region.slug],
+              "--region-color": region.color,
+            };
+            return (
+              <Link
+                key={region.slug}
+                href={`/regions/${region.slug}`}
+                className={`map-pin map-pin--${region.slug}`}
+                style={pinStyle}
+                aria-label={`${region.koreanName} GLab 교육 상세 보기`}
+              >
+                <span className="map-pin__pulse" aria-hidden="true" />
+                <span className="map-pin__dot" aria-hidden="true" />
+                <RegionBadge region={region} compact />
+                <small>교육 보기 →</small>
+              </Link>
+            );
+          })}
         </div>
       </div>
       <div className="map-region-list">

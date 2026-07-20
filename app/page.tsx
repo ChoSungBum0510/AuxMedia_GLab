@@ -24,7 +24,7 @@ export default async function HomePage() {
         <div className="home-hero__shade" aria-hidden="true" />
         <div className="home-hero__content shell">
           <span className="hero-kicker">HALLYM REGIONAL LEARNING NETWORK</span>
-          <h1>배움이 지역을 바꾸는 순간,<br /><span className="home-hero__brand-line"><BrandLogo className="official-brand--hero" dark /><span>이 함께합니다.</span></span></h1>
+          <h1>지역이 변하는 순간,<br /><span className="home-hero__brand-line"><BrandLogo className="official-brand--hero" dark /><span>이 함께합니다.</span></span></h1>
           <p>정선·동해·인제에서 열리는 교육과정과 신청, 온라인 학습, 수강후기를 이제 한곳에서 만나보세요.</p>
           <div className="hero-actions">
             <Link className="button button--white" href="#regional-map">지역 교육 찾기 <span>↓</span></Link>

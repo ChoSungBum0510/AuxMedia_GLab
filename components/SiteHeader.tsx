@@ -4,6 +4,7 @@ import { isAdminEmail } from "../lib/auth";
 import { BrandLogo } from "./BrandLogo";
 
 const navigation = [
+  { href: "/about", label: "GLab 소개" },
   { href: "/regions", label: "지역 GLab" },
   { href: "/courses", label: "교육과정" },
   { href: "/reviews", label: "수강후기" },

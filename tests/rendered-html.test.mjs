@@ -52,6 +52,7 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.match(html, /href="\/regions\/jeongseon"/);
   assert.match(html, /href="\/regions\/donghae"/);
   assert.match(html, /href="\/regions\/inje"/);
+  assert.match(html, /href="\/about"/);
   assert.match(html, /map-region-shape--jeongseon/);
   assert.match(html, /map-region-shape--donghae/);
   assert.match(html, /map-region-shape--inje/);
@@ -61,6 +62,18 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(response.headers.get("x-frame-options"), "DENY");
+});
+
+test("renders the GLab introduction page with the promotional video", async () => {
+  const response = await render("/about");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /영상으로 만나는/);
+  assert.match(html, /youtube-nocookie\.com\/embed\/zRnJ9bulKv0/);
+  assert.match(html, /지역의 질문이 배움이 되고/);
+  assert.match(html, /href="\/regions\/jeongseon"/);
+  assert.match(html, /href="\/courses"/);
+  assert.doesNotMatch(html, /M Campus|엠 캠퍼스|chatgpt/i);
 });
 
 test("renders platform-independent login and all regional detail routes", async () => {

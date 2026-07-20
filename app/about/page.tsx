@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { RegionBadge } from "../../components/RegionBadge";
@@ -54,11 +55,33 @@ export default function AboutPage() {
               <Link className="button button--glass" href="/regions">지역 GLab 만나기 <span>→</span></Link>
             </div>
           </div>
-          <div className="about-hero__signal" aria-hidden="true">
-            <span>UNIVERSITY</span>
-            <b>×</b>
-            <span>COMMUNITY</span>
-            <strong>G-LAB</strong>
+          <div
+            className="about-hero__signal"
+            role="img"
+            aria-label="한림대학교와 지역 커뮤니티가 함께 만드는 한림 G Lab"
+          >
+            <div className="about-hero__partner-logo about-hero__partner-logo--university">
+              <Image
+                src="/brand/hallym-university.png"
+                alt=""
+                width={921}
+                height={297}
+                priority
+              />
+            </div>
+            <div className="about-hero__community-label">
+              <strong>COMMUNITY</strong>
+              <small>지역사회와 함께</small>
+            </div>
+            <div className="about-hero__partner-logo about-hero__partner-logo--glab">
+              <Image
+                src="/brand/hallym-glab.png"
+                alt=""
+                width={627}
+                height={149}
+                priority
+              />
+            </div>
           </div>
         </div>
       </section>

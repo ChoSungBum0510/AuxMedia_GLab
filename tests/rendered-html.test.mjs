@@ -71,6 +71,9 @@ test("renders the GLab introduction page with the promotional video", async () =
   assert.match(html, /영상으로 만나는/);
   assert.match(html, /youtube-nocookie\.com\/embed\/zRnJ9bulKv0/);
   assert.match(html, /지역의 질문이 배움이 되고/);
+  assert.match(html, /\/brand\/hallym-university\.png/);
+  assert.match(html, /\/brand\/hallym-glab\.png/);
+  assert.match(html, /COMMUNITY/);
   assert.match(html, /href="\/regions\/jeongseon"/);
   assert.match(html, /href="\/courses"/);
   assert.doesNotMatch(html, /M Campus|엠 캠퍼스|chatgpt/i);

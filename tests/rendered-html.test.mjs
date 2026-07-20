@@ -59,6 +59,10 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.doesNotMatch(html, /map-pin__dot|map-pin__pulse/);
   assert.doesNotMatch(html, /G:Lab|M Campus|엠 캠퍼스|chatgpt/i);
   assert.match(html, /통합 LMS 바로가기/);
+  assert.match(html, /단회성 체험에서/);
+  assert.match(html, /28H/);
+  assert.match(html, /42H/);
+  assert.doesNotMatch(html, /연간 교육과정|누적 학습자|496|김민지|박준호|이서윤/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(response.headers.get("x-frame-options"), "DENY");
@@ -68,12 +72,14 @@ test("renders the GLab introduction page with the promotional video", async () =
   const response = await render("/about");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /영상으로 만나는/);
+  assert.match(html, /지역과 세계를 잇는/);
   assert.match(html, /youtube-nocookie\.com\/embed\/zRnJ9bulKv0/);
-  assert.match(html, /지역의 질문이 배움이 되고/);
-  assert.match(html, /\/brand\/hallym-university\.png/);
+  assert.match(html, /지역 위기를 기회로 전환하는/);
+  assert.match(html, /단회성 교육에서/);
+  assert.match(html, /83\.1%/);
   assert.match(html, /\/brand\/hallym-glab\.png/);
-  assert.match(html, /COMMUNITY/);
+  assert.match(html, /HALLYM REGIONAL INNOVATION/);
+  assert.doesNotMatch(html, /about-hero__signal|hallym-university\.png|COMMUNITY/);
   assert.match(html, /href="\/regions\/jeongseon"/);
   assert.match(html, /href="\/courses"/);
   assert.doesNotMatch(html, /M Campus|엠 캠퍼스|chatgpt/i);
@@ -92,6 +98,10 @@ test("renders platform-independent login and all regional detail routes", async 
     assert.equal(response.status, 200);
     assert.match(await response.text(), new RegExp(`/brand/glab-${region}\\.png`));
   }
+
+  assert.match(await (await render("/regions/donghae")).text(), /AI 전환 생태계/);
+  assert.match(await (await render("/regions/inje")).text(), /헬스 라이프케어/);
+  assert.match(await (await render("/regions/jeongseon")).text(), /번영가치/);
 });
 
 test("renders a clickable, searchable notice board and notice detail", async () => {
@@ -100,12 +110,15 @@ test("renders a clickable, searchable notice board and notice detail", async () 
   const html = await response.text();
   assert.match(html, /공지 분류/);
   assert.match(html, /검색어를 입력하세요/);
-  assert.match(html, /href="\/notices\/1"/);
+  assert.match(html, /한림 G-Lab@동해 지역 연계 협업/);
+  assert.match(html, /동해 AI 미디어 기본·실습 과정 4~7월 운영 성과/);
+  const noticePath = html.match(/href="(\/notices\/\d+)"/)?.[1];
+  assert.ok(noticePath);
 
-  const detail = await render("/notices/1");
+  const detail = await render(noticePath);
   assert.equal(detail.status, 200);
   const detailHtml = await detail.text();
-  assert.match(detailHtml, /정선·동해·인제 8월 교육과정 통합 모집 안내/);
+  assert.match(detailHtml, /G-Lab/);
   assert.match(detailHtml, /알림마당 목록/);
 });
 
@@ -123,8 +136,11 @@ test("server-renders the public course directory", async () => {
   const response = await render("/courses");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /내게 맞는 지역교육/);
+  assert.match(html, /실제 운영 성과/);
   assert.match(html, /교육과정 또는 관심 분야를 검색하세요/);
+  assert.match(html, /동해 AI 미디어 기본·실습 과정/);
+  assert.match(html, /정선 드론 메이크 샷/);
+  assert.doesNotMatch(html, /로컬 콘텐츠 크리에이터|AI 생활문제 해결랩|해양관광 콘텐츠 스튜디오|로컬브랜드 메이커스/);
 });
 
 test("gives the operator real notice and course create/edit permissions", async () => {

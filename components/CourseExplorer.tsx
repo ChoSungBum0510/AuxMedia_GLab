@@ -42,7 +42,7 @@ export function CourseExplorer({ courses, initialRegion = "all" }: { courses: Co
             <option value="all">전체 상태</option>
             <option value="open">모집중</option>
             <option value="planned">모집예정</option>
-            <option value="closed">모집마감</option>
+            <option value="closed">운영완료</option>
           </select>
         </label>
       </div>

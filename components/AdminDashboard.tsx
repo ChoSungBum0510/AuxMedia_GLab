@@ -208,7 +208,7 @@ export function AdminDashboard({
         <div className="admin-notice-layout">
           <form key={editingNotice?.id ?? "new-notice"} className="admin-notice-form" onSubmit={saveNotice}>
             <div className="admin-form-heading"><div><span>{editingNotice ? "EDIT NOTICE" : "NEW NOTICE"}</span><h2>{editingNotice ? "공지 수정" : "새 공지 게시"}</h2></div>{editingNotice && <button type="button" onClick={() => setEditingNotice(null)}>수정 취소</button>}</div>
-            <label><span>분류</span><select name="category" defaultValue={editingNotice?.category ?? "공지"}><option value="공지">공지</option><option value="모집">모집</option><option value="운영">운영</option><option value="LMS">LMS</option></select></label>
+            <label><span>분류</span><select name="category" defaultValue={editingNotice?.category ?? "공지"}><option value="공지">공지</option><option value="모집">모집</option><option value="운영">운영</option><option value="성과">성과</option><option value="LMS">LMS</option></select></label>
             <label><span>제목</span><input name="title" required maxLength={140} defaultValue={editingNotice?.title} /></label>
             <label><span>내용</span><textarea name="content" rows={12} required minLength={10} maxLength={8000} defaultValue={editingNotice?.content} /></label>
             <button className="button">{editingNotice ? "변경사항 저장" : "공지 게시하기"}</button>
@@ -228,7 +228,7 @@ export function AdminDashboard({
         <div className="admin-review-list">
           {reviews.map((review) => (
             <article key={review.id}>
-              <div className="review-stars" aria-label={`${review.rating}점`}>{"★".repeat(review.rating)}</div>
+              <div className={review.rating > 0 ? "review-stars" : "review-source"} aria-label={review.rating > 0 ? `${review.rating}점` : "공식 운영자료 기반"}>{review.rating > 0 ? "★".repeat(review.rating) : "공식 운영자료 기반"}</div>
               <h3>{review.title}</h3><p>{review.content}</p>
               <footer><span>{review.author} · {review.role}</span><button type="button" onClick={() => toggleReview(review)}>{review.published ? "공개 중" : "승인 대기"}</button></footer>
             </article>

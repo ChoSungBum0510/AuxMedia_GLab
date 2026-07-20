@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { NoticeRecord } from "../db/schema";
 
-const categories = ["전체", "모집", "운영", "LMS"] as const;
+const categories = ["전체", "모집", "운영", "성과", "LMS"] as const;
 
 function noticeDate(value: string) {
   return value.slice(0, 10).replaceAll("-", ".");

@@ -1,9 +1,17 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { getDb, getRawDb } from ".";
 import { applications, courses, notices, reviews } from "./schema";
-import { fallbackNotices, fallbackReviews, seedCourses } from "../lib/content";
+import {
+  fallbackNotices,
+  fallbackReviews,
+  legacyCourseSlugs,
+  legacyNoticeTitles,
+  legacyReviewTitles,
+  seedCourses,
+} from "../lib/content";
 
 let initialization: Promise<void> | null = null;
+const CONTENT_VERSION = "2026-07-21-real-materials-v1";
 
 export async function ensureDatabase() {
   initialization ??= initializeDatabase().catch((error) => {
@@ -82,7 +90,19 @@ async function initializeDatabase() {
       updated_at INTEGER NOT NULL
     )`),
     d1.prepare("CREATE INDEX IF NOT EXISTS login_attempts_updated_idx ON login_attempts(updated_at)"),
+    d1.prepare(`CREATE TABLE IF NOT EXISTS content_metadata (
+      metadata_key TEXT PRIMARY KEY NOT NULL,
+      metadata_value TEXT NOT NULL,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`),
   ]);
+
+  const contentVersion = await d1
+    .prepare("SELECT metadata_value AS value FROM content_metadata WHERE metadata_key = 'content_version'")
+    .first<{ value: string }>();
+  if (contentVersion?.value !== CONTENT_VERSION) {
+    await migrateToVerifiedContent();
+  }
 
   const row = await d1.prepare("SELECT COUNT(*) AS count FROM courses").first<{ count: number }>();
   if ((row?.count ?? 0) === 0) {
@@ -160,6 +180,121 @@ async function initializeDatabase() {
   }
 }
 
+async function migrateToVerifiedContent() {
+  const d1 = getRawDb();
+  const statements = [];
+
+  for (const slug of legacyCourseSlugs) {
+    statements.push(d1.prepare("UPDATE courses SET published = 0, updated_at = CURRENT_TIMESTAMP WHERE slug = ?1").bind(slug));
+    statements.push(
+      d1
+        .prepare("DELETE FROM courses WHERE slug = ?1 AND NOT EXISTS (SELECT 1 FROM applications WHERE applications.course_slug = courses.slug)")
+        .bind(slug),
+    );
+  }
+
+  for (const course of seedCourses) {
+    statements.push(
+      d1
+        .prepare(`INSERT INTO courses (
+          slug, region, title, summary, category, audience, format, status,
+          application_start, application_end, course_start, course_end,
+          capacity, location, curriculum, outcomes, published
+        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)
+        ON CONFLICT(slug) DO UPDATE SET
+          region = excluded.region,
+          title = excluded.title,
+          summary = excluded.summary,
+          category = excluded.category,
+          audience = excluded.audience,
+          format = excluded.format,
+          status = excluded.status,
+          application_start = excluded.application_start,
+          application_end = excluded.application_end,
+          course_start = excluded.course_start,
+          course_end = excluded.course_end,
+          capacity = excluded.capacity,
+          location = excluded.location,
+          curriculum = excluded.curriculum,
+          outcomes = excluded.outcomes,
+          published = excluded.published,
+          updated_at = CURRENT_TIMESTAMP`)
+        .bind(
+          course.slug,
+          course.region,
+          course.title,
+          course.summary,
+          course.category,
+          course.audience,
+          course.format,
+          course.status,
+          course.applicationStart,
+          course.applicationEnd,
+          course.courseStart,
+          course.courseEnd,
+          course.capacity,
+          course.location,
+          JSON.stringify(course.curriculum),
+          JSON.stringify(course.outcomes),
+          course.published ? 1 : 0,
+        ),
+    );
+  }
+
+  for (const title of legacyReviewTitles) {
+    statements.push(d1.prepare("DELETE FROM reviews WHERE title = ?1").bind(title));
+  }
+  for (const review of fallbackReviews) {
+    statements.push(
+      d1
+        .prepare(`INSERT INTO reviews (
+          course_slug, region, author, role, rating, title, content, published, created_at
+        ) SELECT ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9
+        WHERE NOT EXISTS (SELECT 1 FROM reviews WHERE title = ?6 AND author = ?3)`)
+        .bind(
+          review.courseSlug,
+          review.region,
+          review.author,
+          review.role,
+          review.rating,
+          review.title,
+          review.content,
+          review.published ? 1 : 0,
+          review.createdAt,
+        ),
+    );
+  }
+
+  for (const title of legacyNoticeTitles) {
+    statements.push(d1.prepare("DELETE FROM notices WHERE title = ?1").bind(title));
+  }
+  for (const notice of fallbackNotices) {
+    statements.push(
+      d1
+        .prepare(`INSERT INTO notices (title, category, content, published, created_at)
+          SELECT ?1, ?2, ?3, ?4, ?5
+          WHERE NOT EXISTS (SELECT 1 FROM notices WHERE title = ?1)`)
+        .bind(
+          notice.title,
+          notice.category,
+          notice.content,
+          notice.published ? 1 : 0,
+          notice.createdAt,
+        ),
+    );
+  }
+
+  statements.push(
+    d1
+      .prepare(`INSERT INTO content_metadata (metadata_key, metadata_value, updated_at)
+        VALUES ('content_version', ?1, CURRENT_TIMESTAMP)
+        ON CONFLICT(metadata_key) DO UPDATE SET metadata_value = excluded.metadata_value, updated_at = CURRENT_TIMESTAMP`)
+      .bind(CONTENT_VERSION),
+  );
+
+  await d1.batch(statements);
+}
+
 export async function listCourses(options?: { region?: string; includeHidden?: boolean }) {
   await ensureDatabase();
   const db = getDb();
@@ -171,7 +306,11 @@ export async function listCourses(options?: { region?: string; includeHidden?: b
     .select()
     .from(courses)
     .where(filters.length ? and(...filters) : undefined)
-    .orderBy(courses.applicationEnd, courses.id);
+    .orderBy(
+      sql`CASE ${courses.status} WHEN 'open' THEN 0 WHEN 'planned' THEN 1 ELSE 2 END`,
+      courses.courseStart,
+      courses.id,
+    );
 }
 
 export async function getCourse(slug: string) {

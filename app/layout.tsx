@@ -26,23 +26,23 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase = new URL("https://glab-regional-learning.example");
   }
 
-  const description = "정선·동해·인제의 교육과정, 신청, 온라인 학습과 수강후기를 한곳에서 관리하는 GLab 통합 지원 플랫폼입니다.";
+  const description = "정선·동해·인제의 지역 현안과 한림대학교의 역량을 교육·연구·협력으로 연결하고, 과정·신청·성과를 통합 관리하는 G-Lab 플랫폼입니다.";
   const imageUrl = new URL("/og.png", metadataBase).toString();
   return {
     metadataBase,
     title: { default: "GLab | 지역교육 통합지원 플랫폼", template: "%s | GLab" },
     description,
-    keywords: ["GLab", "지역교육", "정선", "동해", "인제", "한림대학교", "교육신청"],
+    keywords: ["G-Lab", "GLab", "지역혁신", "지역교육", "정선", "동해", "인제", "한림대학교", "교육신청"],
     icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
     openGraph: {
       type: "website",
       locale: "ko_KR",
       siteName: "GLab 지역교육 통합지원",
-      title: "GLab | 지역의 배움과 기회를 하나로",
+      title: "G-Lab | 지역이 변하는 순간",
       description,
       images: [{ url: imageUrl, width: 1734, height: 907, alt: "GLab 지역교육 통합지원" }],
     },
-    twitter: { card: "summary_large_image", title: "GLab | 지역의 배움과 기회를 하나로", description, images: [imageUrl] },
+    twitter: { card: "summary_large_image", title: "G-Lab | 지역이 변하는 순간", description, images: [imageUrl] },
   };
 }
 

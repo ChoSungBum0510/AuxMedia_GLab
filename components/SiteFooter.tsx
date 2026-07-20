@@ -20,7 +20,7 @@ export function SiteFooter() {
           <Link className="brand brand--footer" href="/" aria-label="한림 G Lab 통합 지원 홈">
             <BrandLogo />
           </Link>
-          <p>지역의 배움과 기회를 하나로 연결합니다.</p>
+          <p>지역 위기를 기회로 전환하는 지역혁신 플랫폼.</p>
         </div>
         <div className="footer-links">
           <div>
@@ -40,13 +40,13 @@ export function SiteFooter() {
             <strong>운영</strong>
             <Link href="/notices">공지사항</Link>
             <Link href="/admin">관리자 페이지</Link>
-            <a href="mailto:glab@hallym.ac.kr">glab@hallym.ac.kr</a>
+            <Link href="/notices">운영·문의 안내</Link>
           </div>
         </div>
       </div>
       <div className="footer-bottom shell">
         <span>© 2026 GLab Regional Learning Platform</span>
-        <span>Hallym University · 지역과 대학이 함께 만드는 배움</span>
+        <span>Hallym University · 대학과 지역이 함께 만드는 미래</span>
       </div>
     </footer>
   );

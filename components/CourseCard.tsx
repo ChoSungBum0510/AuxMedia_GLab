@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { courseStatusLabel, formatDate, regionMap, type RegionSlug } from "../lib/content";
+import { courseStatusLabel, getCourseDisplayInfo, regionMap, type RegionSlug } from "../lib/content";
 import type { CourseRecord } from "../db/schema";
 import { RegionBadge } from "./RegionBadge";
 
 export function CourseCard({ course, featured = false }: { course: CourseRecord; featured?: boolean }) {
   const region = regionMap[course.region as RegionSlug];
   if (!region) return null;
+  const display = getCourseDisplayInfo(course);
 
   return (
     <article className={`course-card${featured ? " course-card--featured" : ""}`}>
@@ -19,9 +20,9 @@ export function CourseCard({ course, featured = false }: { course: CourseRecord;
         <p>{course.summary}</p>
       </div>
       <dl className="course-card__meta">
-        <div><dt>접수</dt><dd>{formatDate(course.applicationEnd)}까지</dd></div>
-        <div><dt>교육</dt><dd>{formatDate(course.courseStart)} 시작</dd></div>
-        <div><dt>정원</dt><dd>{course.capacity}명</dd></div>
+        <div><dt>안내</dt><dd>{display.application}</dd></div>
+        <div><dt>교육</dt><dd>{display.schedule}</dd></div>
+        <div><dt>참여</dt><dd>{display.participation}</dd></div>
       </dl>
       <div className="course-card__actions">
         <Link href={`/courses/${course.slug}`} className="text-link">과정 자세히 보기 <span>→</span></Link>

@@ -11,7 +11,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const params = await searchParams;
   const returnTo = safeReturnPath(params.returnTo);
   const user = await getCurrentUser();
-  if (user) redirect(returnTo);
+  if (user) redirect(user.role === "admin" ? "/admin" : returnTo);
   const initialMode = params.mode === "admin" ? "admin" : "learner";
 
   return (
@@ -28,4 +28,3 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     </section>
   );
 }
-

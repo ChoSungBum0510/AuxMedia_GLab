@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const accepted = isAdminEmail(email) && configuredPassword.length >= 16 && await secureEqual(password, configuredPassword);
     if (!accepted) return jsonError("관리자 계정 정보가 올바르지 않습니다.", 401);
 
-    const token = await createSessionToken({ displayName: "GLab 관리자", email, role: "admin" });
+    const token = await createSessionToken({ displayName: "GLab 담당자", email, role: "admin" });
     await clearLoginAttempts(rateLimit.key);
     return Response.json({ ok: true }, { headers: { "Set-Cookie": sessionCookie(token), "Cache-Control": "no-store" } });
   } catch (error) {

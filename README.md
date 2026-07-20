@@ -6,8 +6,8 @@
 
 - 지도에서 정선·동해·인제를 선택해 지역별 교육 페이지로 이동
 - 교육과정 검색·필터·상세 정보 및 온라인 신청
-- ChatGPT 계정 기반 로그인, 나의 신청 내역
-- 과정·신청 상태·후기를 관리하는 관리자 화면
+- 이메일 기반 수강생 로그인과 나의 신청 내역
+- 공지·교육과정·신청 상태·후기를 관리하는 담당자 화면
 - Cloudflare D1 기반 과정·신청·후기·공지 데이터 관리
 - 기존 통합 LMS 바로가기 및 온라인 학습 연계
 
@@ -32,10 +32,12 @@ npm test
 
 `.env.example`을 참고해 로컬 `.env`를 구성합니다.
 
-- `ADMIN_EMAILS`: 관리자 권한을 허용할 이메일 목록(쉼표 구분)
+- `ADMIN_EMAILS`: 담당자 권한을 허용할 이메일 목록(쉼표 구분)
+- `ADMIN_PASSWORD`: 담당자 로그인 비밀번호(Cloudflare Secret 권장)
+- `SESSION_SECRET`: 로그인 세션 서명 키(Cloudflare Secret 권장)
 - `NEXT_PUBLIC_LMS_URL`: 푸터와 교육 흐름에서 연결할 통합 LMS 주소
 
-운영 환경에서는 Cloudflare Sites 환경 변수로 같은 값을 관리합니다.
+운영 환경에서는 Cloudflare Workers 환경 변수와 Secret으로 같은 값을 관리합니다.
 
 ## 데이터베이스
 
@@ -45,4 +47,4 @@ npm test
 npm run db:generate
 ```
 
-로컬 개발에서는 vinext가 D1 바인딩을 제공하며, 배포 환경에서는 `.openai/hosting.json`의 `DB` 바인딩을 사용합니다.
+로컬 개발에서는 vinext가 D1 바인딩을 제공하며, 배포 환경에서는 `wrangler.jsonc`의 `DB` 바인딩을 사용합니다.

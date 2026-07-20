@@ -70,10 +70,8 @@ export function RegionMap() {
                   style={pinStyle}
                   aria-label={`${region.koreanName} GLab 교육 상세 보기`}
                 >
-                  <span className="map-pin__pulse" aria-hidden="true" />
-                  <span className="map-pin__dot" aria-hidden="true" />
                   <RegionBadge region={region} compact />
-                  <small>교육 보기 →</small>
+                  <small>{region.koreanName} 교육과정 보기 →</small>
                 </Link>
               </div>
             );
@@ -87,7 +85,7 @@ export function RegionMap() {
         <div className="map-region-list__items">
           {regions.map((region) => (
             <Link key={region.slug} href={`/regions/${region.slug}`}>
-              <RegionBadge region={regionMap[region.slug]} compact />
+              <RegionBadge region={regionMap[region.slug]} compact dark />
               <span>{region.headline}</span>
               <b aria-hidden="true">↗</b>
             </Link>

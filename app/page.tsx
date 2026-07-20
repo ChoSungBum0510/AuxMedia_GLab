@@ -4,14 +4,17 @@ import { RegionMap } from "../components/RegionMap";
 import { SectionHeading } from "../components/SectionHeading";
 import { BrandLogo } from "../components/BrandLogo";
 import { RegionBadge } from "../components/RegionBadge";
-import { fallbackCourseRecords, fallbackReviews, LMS_URL, notices, regionMap, regions, type RegionSlug } from "../lib/content";
-import { listCourses, listPublishedReviews } from "../db/repository";
+import { fallbackCourseRecords, fallbackNotices, fallbackReviews, LMS_URL, regionMap, regions, type RegionSlug } from "../lib/content";
+import { listCourses, listPublishedNotices, listPublishedReviews } from "../db/repository";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const courses = await listCourses().catch(() => fallbackCourseRecords);
-  const reviews = await listPublishedReviews().catch(() => fallbackReviews);
+  const [courses, reviews, notices] = await Promise.all([
+    listCourses().catch(() => fallbackCourseRecords),
+    listPublishedReviews().catch(() => fallbackReviews),
+    listPublishedNotices().catch(() => fallbackNotices),
+  ]);
   const featuredCourses = courses.filter((course) => course.status === "open").slice(0, 3);
 
   return (
@@ -21,7 +24,7 @@ export default async function HomePage() {
         <div className="home-hero__shade" aria-hidden="true" />
         <div className="home-hero__content shell">
           <span className="hero-kicker">HALLYM REGIONAL LEARNING NETWORK</span>
-          <h1>배움이 지역을 바꾸는 순간,<br /><span className="home-hero__brand-line"><BrandLogo className="official-brand--hero" /><span>이 함께합니다.</span></span></h1>
+          <h1>배움이 지역을 바꾸는 순간,<br /><span className="home-hero__brand-line"><BrandLogo className="official-brand--hero" dark /><span>이 함께합니다.</span></span></h1>
           <p>정선·동해·인제에서 열리는 교육과정과 신청, 온라인 학습, 수강후기를 이제 한곳에서 만나보세요.</p>
           <div className="hero-actions">
             <Link className="button button--white" href="#regional-map">지역 교육 찾기 <span>↓</span></Link>
@@ -32,7 +35,7 @@ export default async function HomePage() {
           <div className="shell">
             {regions.map((region, index) => (
               <Link key={region.slug} href={`/regions/${region.slug}`}>
-                <span className="hero-region-bar__index">0{index + 1}</span><RegionBadge region={region} compact /><b>↗</b>
+                <span className="hero-region-bar__index">0{index + 1}</span><RegionBadge region={region} compact dark /><b>↗</b>
               </Link>
             ))}
           </div>
@@ -131,7 +134,7 @@ export default async function HomePage() {
         <div className="shell news-layout">
           <div><span className="eyebrow">GLAB NEWS</span><h2>새로운 교육 소식</h2><p>모집, 개강, 운영 안내를 빠르게 확인하세요.</p><Link href="/notices" className="text-link">공지 전체보기 →</Link></div>
           <div className="notice-list">
-            {notices.map((notice) => <Link href="/notices" key={notice.title}><span>{notice.category}</span><strong>{notice.title}</strong><time>{notice.date}</time><b>→</b></Link>)}
+            {notices.slice(0, 3).map((notice) => <Link href={`/notices/${notice.id}`} key={notice.id}><span>{notice.category}</span><strong>{notice.title}</strong><time>{notice.createdAt.slice(0, 10).replaceAll("-", ".")}</time><b>→</b></Link>)}
           </div>
         </div>
       </section>

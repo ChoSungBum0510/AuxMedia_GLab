@@ -26,7 +26,7 @@ export function LoginForm({ initialMode, returnTo }: { initialMode: LoginMode; r
       });
       const result = await response.json() as { error?: string };
       if (!response.ok) throw new Error(result.error ?? "로그인하지 못했습니다.");
-      window.location.assign(returnTo);
+      window.location.assign(mode === "admin" ? "/admin" : returnTo);
     } catch (error) {
       setState("error");
       setMessage(error instanceof Error ? error.message : "잠시 후 다시 시도해 주세요.");
@@ -37,12 +37,12 @@ export function LoginForm({ initialMode, returnTo }: { initialMode: LoginMode; r
     <div className="login-panel">
       <div className="login-tabs" role="tablist" aria-label="로그인 유형">
         <button type="button" role="tab" aria-selected={mode === "learner"} className={mode === "learner" ? "active" : ""} onClick={() => { setMode("learner"); setMessage(""); }}>수강생</button>
-        <button type="button" role="tab" aria-selected={mode === "admin"} className={mode === "admin" ? "active" : ""} onClick={() => { setMode("admin"); setMessage(""); }}>관리자</button>
+        <button type="button" role="tab" aria-selected={mode === "admin"} className={mode === "admin" ? "active" : ""} onClick={() => { setMode("admin"); setMessage(""); }}>담당자</button>
       </div>
       <form className="login-form" onSubmit={submit}>
         <div className="login-form__intro">
-          <strong>{mode === "admin" ? "운영 관리자 로그인" : "나의 신청내역 확인"}</strong>
-          <p>{mode === "admin" ? "등록된 관리자 이메일과 비밀번호를 입력하세요." : "교육 신청 시 입력한 이메일과 연락처를 입력하세요."}</p>
+          <strong>{mode === "admin" ? "운영 담당자 로그인" : "나의 신청내역 확인"}</strong>
+          <p>{mode === "admin" ? "등록된 담당자 이메일과 비밀번호를 입력하세요." : "교육 신청 시 입력한 이메일과 연락처를 입력하세요."}</p>
         </div>
         <label>
           <span>이메일</span>
@@ -67,4 +67,3 @@ export function LoginForm({ initialMode, returnTo }: { initialMode: LoginMode; r
     </div>
   );
 }
-

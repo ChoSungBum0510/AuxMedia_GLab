@@ -1,7 +1,7 @@
 import { and, desc, eq } from "drizzle-orm";
 import { getDb, getRawDb } from ".";
-import { applications, courses, reviews } from "./schema";
-import { fallbackReviews, seedCourses } from "../lib/content";
+import { applications, courses, notices, reviews } from "./schema";
+import { fallbackNotices, fallbackReviews, seedCourses } from "../lib/content";
 
 let initialization: Promise<void> | null = null;
 
@@ -74,6 +74,7 @@ async function initializeDatabase() {
       published INTEGER NOT NULL DEFAULT 1,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`),
+    d1.prepare("CREATE INDEX IF NOT EXISTS notices_published_idx ON notices(published)"),
     d1.prepare(`CREATE TABLE IF NOT EXISTS login_attempts (
       attempt_key TEXT PRIMARY KEY NOT NULL,
       attempts INTEGER NOT NULL DEFAULT 0,
@@ -134,6 +135,25 @@ async function initializeDatabase() {
             review.content,
             1,
             review.createdAt,
+          ),
+      ),
+    );
+  }
+
+  const noticeCount = await d1.prepare("SELECT COUNT(*) AS count FROM notices").first<{ count: number }>();
+  if ((noticeCount?.count ?? 0) === 0) {
+    await d1.batch(
+      fallbackNotices.map((notice) =>
+        d1
+          .prepare(`INSERT INTO notices (
+            title, category, content, published, created_at
+          ) VALUES (?1, ?2, ?3, ?4, ?5)`)
+          .bind(
+            notice.title,
+            notice.category,
+            notice.content,
+            notice.published ? 1 : 0,
+            notice.createdAt,
           ),
       ),
     );
@@ -199,4 +219,29 @@ export async function findApplicantIdentity(email: string, phone: string) {
 export async function listAllApplications() {
   await ensureDatabase();
   return getDb().select().from(applications).orderBy(desc(applications.createdAt)).limit(200);
+}
+
+export async function listPublishedNotices() {
+  await ensureDatabase();
+  return getDb()
+    .select()
+    .from(notices)
+    .where(eq(notices.published, true))
+    .orderBy(desc(notices.createdAt), desc(notices.id))
+    .limit(100);
+}
+
+export async function getPublishedNotice(id: number) {
+  await ensureDatabase();
+  const rows = await getDb()
+    .select()
+    .from(notices)
+    .where(and(eq(notices.id, id), eq(notices.published, true)))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+export async function listAllNotices() {
+  await ensureDatabase();
+  return getDb().select().from(notices).orderBy(desc(notices.createdAt), desc(notices.id)).limit(200);
 }

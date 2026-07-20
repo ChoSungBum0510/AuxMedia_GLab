@@ -29,10 +29,10 @@ export const regions: RegionInfo[] = [
     name: "Jeongseon GLab",
     koreanName: "정선",
     shortCode: "JS",
-    eyebrow: "MOUNTAIN · LOCAL · DIGITAL",
-    headline: "산과 마을을 연결하는 디지털 배움",
+    eyebrow: "LEARN · COLLABORATE · SOLVE",
+    headline: "지역의 질문을 함께 풀어가는 G‑Lab",
     description:
-      "정선의 사람과 자원을 디지털 콘텐츠로 발견하고, 지역 안에서 새로운 일을 만드는 실전형 교육을 운영합니다.",
+      "대학의 전문성과 지역의 경험을 연결해 현안을 함께 찾고, 교육·연구·리빙랩으로 실행 가능한 해결안을 만듭니다.",
     address: "정선군 정선읍 지역학습거점",
     contact: "033-000-2101",
     color: "#147D77",
@@ -52,10 +52,10 @@ export const regions: RegionInfo[] = [
     name: "Donghae GLab",
     koreanName: "동해",
     shortCode: "DH",
-    eyebrow: "OCEAN · AI · CONTENT",
-    headline: "바다와 산업을 잇는 미래 실무 교육",
+    eyebrow: "LEARN · COLLABORATE · SOLVE",
+    headline: "지역의 질문을 함께 풀어가는 G‑Lab",
     description:
-      "동해의 해양·관광·산업 현장을 기반으로 AI 도구와 디지털 미디어를 실제 업무에 적용하는 과정을 만듭니다.",
+      "대학의 전문성과 지역의 경험을 연결해 현안을 함께 찾고, 교육·연구·리빙랩으로 실행 가능한 해결안을 만듭니다.",
     address: "동해시 천곡동 디지털학습거점",
     contact: "033-000-2201",
     color: "#0A73B7",
@@ -75,10 +75,10 @@ export const regions: RegionInfo[] = [
     name: "Inje GLab",
     koreanName: "인제",
     shortCode: "IJ",
-    eyebrow: "FOREST · YOUTH · MAKER",
-    headline: "자연에서 시작하는 창의·기술 프로젝트",
+    eyebrow: "LEARN · COLLABORATE · SOLVE",
+    headline: "지역의 질문을 함께 풀어가는 G‑Lab",
     description:
-      "인제의 자연환경과 지역 이야기를 바탕으로 청소년부터 주민까지 함께 만드는 메이커·미디어 교육을 운영합니다.",
+      "대학의 전문성과 지역의 경험을 연결해 현안을 함께 찾고, 교육·연구·리빙랩으로 실행 가능한 해결안을 만듭니다.",
     address: "인제군 인제읍 미래학습거점",
     contact: "033-000-2301",
     color: "#507A3F",
@@ -311,10 +311,31 @@ export const fallbackReviews = [
   },
 ];
 
-export const notices = [
-  { date: "2026.07.18", category: "모집", title: "정선·동해·인제 8월 교육과정 통합 모집 안내" },
-  { date: "2026.07.12", category: "공지", title: "GLab 통합 지원 사이트 이용 방법" },
-  { date: "2026.07.05", category: "LMS", title: "온라인 수강을 위한 통합 LMS 접속 안내" },
+export const fallbackNotices = [
+  {
+    id: 1,
+    category: "모집",
+    title: "정선·동해·인제 8월 교육과정 통합 모집 안내",
+    content: "정선·동해·인제 G-Lab에서 운영하는 8월 교육과정의 통합 모집을 시작합니다.\n\n지역별 교육 대상, 일정, 장소와 모집 인원은 교육과정 상세 페이지에서 확인할 수 있습니다. 참여를 원하는 과정의 ‘신청하기’ 버튼을 눌러 접수해 주세요.\n\n접수 결과와 세부 안내는 신청 시 입력한 연락처로 지역 담당자가 안내합니다.",
+    published: true,
+    createdAt: "2026-07-18 09:00:00",
+  },
+  {
+    id: 2,
+    category: "운영",
+    title: "G-Lab 통합 지원 사이트 이용 방법",
+    content: "G-Lab 통합 지원 사이트에서는 세 지역의 교육과정을 한 번에 찾고 신청할 수 있습니다.\n\n지도 또는 지역 메뉴에서 정선·동해·인제를 선택하면 해당 지역의 교육과정과 운영 정보를 확인할 수 있습니다. 신청 후에는 ‘내 학습’에서 접수 상태를 확인하고, 선발 이후 통합 LMS에서 온라인 학습을 이어갈 수 있습니다.",
+    published: true,
+    createdAt: "2026-07-12 09:00:00",
+  },
+  {
+    id: 3,
+    category: "LMS",
+    title: "온라인 수강을 위한 통합 LMS 접속 안내",
+    content: "온라인 강의, 학습자료, 과제와 수료 현황은 통합 LMS에서 관리합니다.\n\n과정에 선발된 학습자는 담당자가 안내한 계정으로 LMS에 로그인해 주세요. 접속이나 수강에 어려움이 있으면 해당 지역 G-Lab 담당자에게 문의해 주시기 바랍니다.",
+    published: true,
+    createdAt: "2026-07-05 09:00:00",
+  },
 ];
 
 export function formatDate(value: string) {

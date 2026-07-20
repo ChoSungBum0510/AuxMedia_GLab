@@ -69,3 +69,4 @@ export const loginAttempts = sqliteTable("login_attempts", {
 export type CourseRecord = typeof courses.$inferSelect;
 export type ApplicationRecord = typeof applications.$inferSelect;
 export type ReviewRecord = typeof reviews.$inferSelect;
+export type NoticeRecord = typeof notices.$inferSelect;

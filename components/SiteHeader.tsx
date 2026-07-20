@@ -27,8 +27,9 @@ export async function SiteHeader() {
         <div className="header-actions">
           {user ? (
             <>
-              <Link href="/mypage" className="header-account">내 학습</Link>
-              {user.role === "admin" && isAdminEmail(user.email) && <Link href="/admin">관리자</Link>}
+              {user.role === "admin" && isAdminEmail(user.email)
+                ? <Link href="/admin" className="header-account header-account--admin">담당자 대시보드</Link>
+                : <Link href="/mypage" className="header-account">내 학습</Link>}
               <Link href={signOutPath("/")} className="header-login">로그아웃</Link>
             </>
           ) : (
@@ -40,7 +41,7 @@ export async function SiteHeader() {
               {navigation.map((item) => (
                 <Link key={item.href} href={item.href}>{item.label}</Link>
               ))}
-              <Link href={user ? "/mypage" : signInPath("/mypage")}>{user ? "내 학습" : "로그인"}</Link>
+              <Link href={user ? (user.role === "admin" && isAdminEmail(user.email) ? "/admin" : "/mypage") : signInPath("/mypage")}>{user ? (user.role === "admin" ? "담당자 대시보드" : "내 학습") : "로그인"}</Link>
             </div>
           </details>
         </div>

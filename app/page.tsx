@@ -44,7 +44,7 @@ export default async function HomePage() {
 
       <section className="intro-strip">
         <div className="shell intro-strip__inner">
-          <div><span className="eyebrow">ONE GLAB PLATFORM</span><h2>단회성 체험에서<br />지속형 교육체계로.</h2></div>
+          <div><span className="eyebrow">ONE GLAB PLATFORM</span><h2>지속형 교육체계로<br />전환하는 첫 시작.</h2></div>
           <p>과정 안내와 신청, 일정, 참여·수료 성과를 통합하고 기초·심화·프로젝트 학습이 끊김 없이 이어지게 합니다.</p>
           <div className="intro-metrics">
             <div><strong>3</strong><span>지역 GLab</span></div>
@@ -64,7 +64,7 @@ export default async function HomePage() {
       <section className="section section--pale">
         <div className="shell">
           <div className="section-title-row">
-            <SectionHeading eyebrow="VERIFIED PROGRAMS" title="공식 자료로 확인한 교육·활동" description="실제 운영 성과와 확정된 예정 프로그램을 지역별로 확인하세요." />
+            <SectionHeading eyebrow="G-LAB PROGRAMS" title="이어지는 교육과 프로젝트" description="운영을 마친 과정과 앞으로 진행할 프로그램을 지역별로 확인하세요." />
             <Link className="text-link text-link--large" href="/courses">전체 교육과정 <span>→</span></Link>
           </div>
           <div className="course-grid course-grid--featured">
@@ -91,7 +91,7 @@ export default async function HomePage() {
       <section className="section section--navy schedule-section">
         <div className="shell schedule-layout">
           <div>
-            <SectionHeading eyebrow="2026 PROGRAM ROADMAP" title="다가오는 GLab 일정" description="운영자료에서 확인된 예정 교육입니다. 모집 방식은 알림마당에서 안내합니다." />
+            <SectionHeading eyebrow="2026 PROGRAM ROADMAP" title="다가오는 GLab 일정" description="예정된 교육 일정을 모았습니다. 모집 방식과 세부 일정은 알림마당에서 안내합니다." />
             <Link href="/courses" className="button button--outline-light">전체 일정 보기 →</Link>
           </div>
           <div className="schedule-list">
@@ -113,7 +113,7 @@ export default async function HomePage() {
       <section className="section reviews-preview">
         <div className="shell">
           <div className="section-title-row">
-            <SectionHeading eyebrow="FIELD FEEDBACK" title="현장에서 확인한 배움과 과제" description="실제 교육 운영자료에 기록된 참여자 의견과 성과입니다." />
+            <SectionHeading eyebrow="FIELD FEEDBACK" title="현장에서 이어진 배움과 과제" description="교육 현장의 참여자 의견과 운영 성과를 다음 과정에 반영합니다." />
             <Link className="text-link text-link--large" href="/reviews">후기 전체보기 <span>→</span></Link>
           </div>
           <div className="review-grid">
@@ -121,7 +121,7 @@ export default async function HomePage() {
               const region = regionMap[review.region as RegionSlug];
               return (
                 <article className="review-card" key={review.id}>
-                  <div className="review-card__top"><span className={review.rating > 0 ? "review-stars" : "review-source"}>{review.rating > 0 ? "★".repeat(review.rating) : "공식 운영자료 기반"}</span><b style={{ color: region.color }}>{region.koreanName}</b></div>
+                  <div className="review-card__top"><span className={review.rating > 0 ? "review-stars" : "review-source"}>{review.rating > 0 ? "★".repeat(review.rating) : "현장 피드백"}</span><b style={{ color: region.color }}>{region.koreanName}</b></div>
                   <h3>{review.title}</h3><p>{review.rating > 0 ? `“${review.content}”` : review.content}</p>
                   <footer><span className="avatar" aria-hidden="true">{review.author.slice(0, 1)}</span><div><strong>{review.author}</strong><small>{review.role}</small></div></footer>
                 </article>

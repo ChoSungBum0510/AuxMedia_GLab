@@ -15,7 +15,7 @@ export default async function NoticesPage() {
         <div className="shell">
           <span className="eyebrow eyebrow--light">GLAB NEWS</span>
           <h1>필요한 교육 소식을<br />한곳에서 확인하세요.</h1>
-          <p>교육 모집과 운영 일정, 공식 자료로 확인한 지역별 성과와 G-Lab 운영 소식을 안내합니다.</p>
+          <p>교육 모집과 운영 일정, 지역별 성과와 G-Lab 운영 소식을 안내합니다.</p>
         </div>
       </section>
       <section className="section">

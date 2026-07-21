@@ -11,7 +11,7 @@ const PROMOTION_VIDEO_EMBED_URL = "https://www.youtube-nocookie.com/embed/zRnJ9b
 
 export const metadata: Metadata = {
   title: "GLab 소개",
-  description: "한림대학교 G-Lab의 지역 협력, 문제해결형 교육과 정선·동해·인제 활동을 홍보영상과 함께 소개합니다.",
+  description: "한림대학교 G-Lab의 지역 협력, 문제 해결형 교육과 정선·동해·인제 활동을 홍보 영상과 함께 소개합니다.",
 };
 
 const values = [
@@ -28,13 +28,38 @@ const values = [
   {
     index: "03",
     title: "통합 연계 교육 플랫폼",
-    description: "과정 안내·모집·출결·아카이브·성과관리를 일원화해 교육과 성과가 흩어지지 않게 합니다.",
+    description: "과정 안내·모집·출결·아카이브·성과 관리를 일원화해 교육과 성과가 흩어지지 않게 합니다.",
   },
+];
+
+const projectPillars = [
+  {
+    index: "01",
+    title: "미디어 프로덕션",
+    items: ["브랜딩·내러티브·바이럴 콘텐츠 제작", "디지털 이미지·영상 처리: DI·VFX"],
+  },
+  {
+    index: "02",
+    title: "드론 랩",
+    items: ["드론 도입·현장 적용 컨설팅과 실습", "드론 실무·교육 프로그램 운영"],
+  },
+  {
+    index: "03",
+    title: "프로젝트 솔루션",
+    items: ["미디어·드론 프로젝트 지원과 운영", "교육·멘토링·연구 개발 연계 솔루션"],
+  },
+];
+
+const programTypes = [
+  ["콘텐츠 교육", "항공촬영·콘텐츠 제작, 시각 자료·광고·숏폼"],
+  ["기업 맞춤형 교육", "AI·미디어와 중소기업·스타트업 미디어 실무"],
+  ["정규과정", "영상 미디어 DI·VFX·SFX와 관광·홍보 콘텐츠 제작"],
+  ["심화·연계 과정", "지·산·학 과정과 교육 사업·지역 연계 프로젝트"],
 ];
 
 const journey = [
   { index: "01", title: "지역 수요·현안 발굴", description: "공유 협업 협의체와 현장 대화를 통해 지역의 과제를 구체화합니다." },
-  { index: "02", title: "정책연구·산학협력", description: "지자체 정책연구와 기업 기술문제 해결, 맞춤형 지원으로 연결합니다." },
+  { index: "02", title: "정책 연구·산학 협력", description: "지자체 정책 연구와 기업 기술 문제 해결, 맞춤형 지원으로 연결합니다." },
   { index: "03", title: "교과·비교과 교육", description: "지역 문제를 주제로 한 학습과 프로젝트로 청년 인재의 유입·정착을 돕습니다." },
   { index: "04", title: "성과 데이터 환류", description: "참여·수료·결과물 데이터를 다음 교육 기획과 지역 확산에 반영합니다." },
 ];
@@ -51,7 +76,7 @@ export default function AboutPage() {
             <h1>지역 위기를 기회로 전환하는<br />지역혁신 플랫폼.</h1>
             <p>한림대학교 G-Lab은 2025년 RISE 사업을 통해 동해·인제·정선을 중심으로 지역혁신 역량강화 플랫폼과 맞춤형 솔루션을 제공하고 있습니다.</p>
             <div className="hero-actions">
-              <Link className="button button--white" href="#promotion-film">홍보영상 보기 <span>↓</span></Link>
+              <Link className="button button--white" href="#promotion-film">홍보 영상 보기 <span>↓</span></Link>
               <Link className="button button--glass" href="/regions">지역 GLab 만나기 <span>→</span></Link>
             </div>
           </div>
@@ -81,7 +106,7 @@ export default function AboutPage() {
           <div className="about-video-frame">
             <iframe
               src={PROMOTION_VIDEO_EMBED_URL}
-              title="2025 한림대학교 G-Lab 홍보영상"
+              title="2025 한림대학교 G-Lab 홍보 영상"
               loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
@@ -89,7 +114,7 @@ export default function AboutPage() {
             />
           </div>
           <div className="about-video-meta">
-            <div><span>OFFICIAL FILM</span><strong>HALLYM UNIVERSITY G-LAB</strong></div>
+            <div><span>PROMOTION FILM</span><strong>HALLYM UNIVERSITY G-LAB</strong></div>
             <a href={PROMOTION_VIDEO_URL} target="_blank" rel="noreferrer">YouTube에서 보기 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
@@ -99,11 +124,11 @@ export default function AboutPage() {
         <div className="shell about-purpose">
           <div>
             <span className="eyebrow">WHY G-LAB</span>
-            <h2>단회성 교육에서<br />지속형 교육체계로</h2>
+            <h2>지속형 교육체계로<br />전환을 위한 첫 시작</h2>
           </div>
           <div className="about-purpose__copy">
             <p>동해 AI 미디어 과정은 8차시·28시간 동안 접수 77명, 참석 64명과 83.1%의 참석률을 기록했고, 정선 청소년 드론교육은 총 7회·42시간 운영과 드론 4종 이수 7명의 성과를 확인했습니다.</p>
-            <p>이제 확인된 성과를 학기제·심화과정·통합 플랫폼으로 연결해, 흥미 중심의 체험이 기본기와 프로젝트, 지역에 남는 결과물로 이어지게 합니다.</p>
+            <p>이 성과를 학기제·심화과정·통합 플랫폼으로 연결해, 흥미 중심의 체험이 기본기와 프로젝트, 지역에 남는 결과물로 이어지게 합니다.</p>
           </div>
         </div>
         <div className="shell about-value-grid">
@@ -117,12 +142,42 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="section section--pale about-project-section" id="project-education">
+        <div className="shell">
+          <div className="about-project-heading">
+            <div>
+              <span className="eyebrow">MEDIA · DRONE TECH</span>
+              <h2>미디어·드론 테크 기반<br />프로젝트 교육</h2>
+            </div>
+            <p>미디어와 드론 기술을 접목한 실무 중심 프로젝트 교육으로 지역 현장 과제를 발굴하고, 교육과 결과물 제작까지 연결합니다.</p>
+          </div>
+          <div className="about-project-grid">
+            {projectPillars.map((pillar) => (
+              <article key={pillar.index}>
+                <span>{pillar.index}</span>
+                <h3>{pillar.title}</h3>
+                <ul>{pillar.items.map((item) => <li key={item}>{item}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+          <div className="about-program-types">
+            {programTypes.map(([title, description], index) => (
+              <div key={title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{title}</strong>
+                <p>{description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section section--navy about-journey-section">
         <div className="shell about-journey-layout">
           <div>
             <span className="eyebrow eyebrow--light">HOW WE WORK</span>
             <h2>현안을 찾고,<br />협력하고,<br />다음 교육으로 잇습니다.</h2>
-            <p>정책연구와 산학협력, 교과·비교과 프로그램, 성과관리를 하나의 지역혁신 흐름으로 연결합니다.</p>
+            <p>정책 연구와 산학 협력, 교과·비교과 프로그램, 성과 관리를 하나의 지역 혁신 흐름으로 연결합니다.</p>
           </div>
           <ol className="about-journey">
             {journey.map((step) => (
@@ -140,7 +195,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="THREE REGIONAL LABS"
             title="세 지역에서 이어지는 G-Lab"
-            description="정선·동해·인제의 공식 특화 방향과 실제 운영 성과, 공개된 예정 프로그램을 확인하세요."
+            description="정선·동해·인제의 특화 방향과 교육 성과, 공개된 예정 프로그램을 확인하세요."
           />
           <div className="about-region-grid">
             {regions.map((region) => (
@@ -155,13 +210,6 @@ export default function AboutPage() {
               </Link>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="about-evidence">
-        <div className="shell">
-          <span>CONTENT BASIS</span>
-          <p>사이트의 운영 수치와 프로그램 내용은 「2026 한림 G-Lab@동해 지역 연계 협업 지·산·학 간담회」 배포자료, 2025 정선 드론 사업 결과, 2026 동해 AI 미디어 4~7월 결과자료를 기준으로 정리했습니다.</p>
         </div>
       </section>
 

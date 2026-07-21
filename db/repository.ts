@@ -11,7 +11,7 @@ import {
 } from "../lib/content";
 
 let initialization: Promise<void> | null = null;
-const CONTENT_VERSION = "2026-07-21-real-materials-v1";
+const CONTENT_VERSION = "2026-07-21-final-release-v2";
 
 export async function ensureDatabase() {
   initialization ??= initializeDatabase().catch((error) => {
@@ -101,7 +101,7 @@ async function initializeDatabase() {
     .prepare("SELECT metadata_value AS value FROM content_metadata WHERE metadata_key = 'content_version'")
     .first<{ value: string }>();
   if (contentVersion?.value !== CONTENT_VERSION) {
-    await migrateToVerifiedContent();
+    await migrateToCurrentContent();
   }
 
   const row = await d1.prepare("SELECT COUNT(*) AS count FROM courses").first<{ count: number }>();
@@ -180,7 +180,7 @@ async function initializeDatabase() {
   }
 }
 
-async function migrateToVerifiedContent() {
+async function migrateToCurrentContent() {
   const d1 = getRawDb();
   const statements = [];
 
@@ -247,6 +247,27 @@ async function migrateToVerifiedContent() {
   for (const review of fallbackReviews) {
     statements.push(
       d1
+        .prepare(`UPDATE reviews SET
+          course_slug = ?1,
+          region = ?2,
+          role = ?4,
+          rating = ?5,
+          content = ?7,
+          published = ?8
+        WHERE title = ?6 AND author = ?3`)
+        .bind(
+          review.courseSlug,
+          review.region,
+          review.author,
+          review.role,
+          review.rating,
+          review.title,
+          review.content,
+          review.published ? 1 : 0,
+        ),
+    );
+    statements.push(
+      d1
         .prepare(`INSERT INTO reviews (
           course_slug, region, author, role, rating, title, content, published, created_at
         ) SELECT ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9
@@ -269,6 +290,17 @@ async function migrateToVerifiedContent() {
     statements.push(d1.prepare("DELETE FROM notices WHERE title = ?1").bind(title));
   }
   for (const notice of fallbackNotices) {
+    statements.push(
+      d1
+        .prepare(`UPDATE notices SET category = ?2, content = ?3, published = ?4
+          WHERE title = ?1`)
+        .bind(
+          notice.title,
+          notice.category,
+          notice.content,
+          notice.published ? 1 : 0,
+        ),
+    );
     statements.push(
       d1
         .prepare(`INSERT INTO notices (title, category, content, published, created_at)

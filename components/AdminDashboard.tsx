@@ -228,7 +228,7 @@ export function AdminDashboard({
         <div className="admin-review-list">
           {reviews.map((review) => (
             <article key={review.id}>
-              <div className={review.rating > 0 ? "review-stars" : "review-source"} aria-label={review.rating > 0 ? `${review.rating}점` : "공식 운영자료 기반"}>{review.rating > 0 ? "★".repeat(review.rating) : "공식 운영자료 기반"}</div>
+              <div className={review.rating > 0 ? "review-stars" : "review-source"} aria-label={review.rating > 0 ? `${review.rating}점` : "현장 피드백"}>{review.rating > 0 ? "★".repeat(review.rating) : "현장 피드백"}</div>
               <h3>{review.title}</h3><p>{review.content}</p>
               <footer><span>{review.author} · {review.role}</span><button type="button" onClick={() => toggleReview(review)}>{review.published ? "공개 중" : "승인 대기"}</button></footer>
             </article>

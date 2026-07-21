@@ -59,7 +59,7 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.doesNotMatch(html, /map-pin__dot|map-pin__pulse/);
   assert.doesNotMatch(html, /G:Lab|M Campus|엠 캠퍼스|chatgpt/i);
   assert.match(html, /통합 LMS 바로가기/);
-  assert.match(html, /단회성 체험에서/);
+  assert.match(html, /지속형 교육체계로/);
   assert.match(html, /28H/);
   assert.match(html, /42H/);
   assert.doesNotMatch(html, /연간 교육과정|누적 학습자|496|김민지|박준호|이서윤/);
@@ -75,8 +75,12 @@ test("renders the GLab introduction page with the promotional video", async () =
   assert.match(html, /지역과 세계를 잇는/);
   assert.match(html, /youtube-nocookie\.com\/embed\/zRnJ9bulKv0/);
   assert.match(html, /지역 위기를 기회로 전환하는/);
-  assert.match(html, /단회성 교육에서/);
+  assert.match(html, /지속형 교육체계로/);
   assert.match(html, /83\.1%/);
+  assert.match(html, /미디어·드론 테크 기반/);
+  assert.match(html, /미디어 프로덕션/);
+  assert.match(html, /드론 랩/);
+  assert.match(html, /프로젝트 솔루션/);
   assert.match(html, /\/brand\/hallym-glab\.png/);
   assert.match(html, /HALLYM REGIONAL INNOVATION/);
   assert.doesNotMatch(html, /about-hero__signal|hallym-university\.png|COMMUNITY/);
@@ -136,11 +140,20 @@ test("server-renders the public course directory", async () => {
   const response = await render("/courses");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /실제 운영 성과/);
+  assert.match(html, /기초부터 프로젝트까지/);
   assert.match(html, /교육과정 또는 관심 분야를 검색하세요/);
   assert.match(html, /동해 AI 미디어 기본·실습 과정/);
-  assert.match(html, /정선 드론 메이크 샷/);
+  assert.match(html, /정선 드론 교육 프로그램: 드론 메이크 샷/);
   assert.doesNotMatch(html, /로컬 콘텐츠 크리에이터|AI 생활문제 해결랩|해양관광 콘텐츠 스튜디오|로컬브랜드 메이커스/);
+});
+
+test("keeps internal source wording out of public pages", async () => {
+  const forbidden = /공식\s*(?:자료|운영)|운영\s*자료|CONTENT BASIS|VERIFIED PROGRAMS|OFFICIAL FILM/i;
+  for (const path of ["/", "/about", "/courses", "/regions", "/reviews", "/notices"]) {
+    const response = await render(path);
+    assert.equal(response.status, 200);
+    assert.doesNotMatch(await response.text(), forbidden, `${path} contains internal source wording`);
+  }
 });
 
 test("gives the operator real notice and course create/edit permissions", async () => {

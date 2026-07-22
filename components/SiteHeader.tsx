@@ -5,7 +5,7 @@ import { BrandLogo } from "./BrandLogo";
 
 const navigation = [
   { href: "/about", label: "GLab 소개" },
-  { href: "/regions", label: "지역 GLab" },
+  { href: "/regions", label: "지역 거점" },
   { href: "/courses", label: "교육과정" },
   { href: "/reviews", label: "수강후기" },
   { href: "/notices", label: "알림마당" },

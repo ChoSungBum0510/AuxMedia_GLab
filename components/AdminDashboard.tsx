@@ -160,7 +160,7 @@ export function AdminDashboard({
                 <tr key={application.id}>
                   <td><strong>{application.name}</strong><small>{application.email}</small></td>
                   <td>{courses.find((course) => course.slug === application.courseSlug)?.title ?? application.courseSlug}</td>
-                  <td>{regionMap[application.region as RegionSlug]?.koreanName ?? application.region}</td>
+                  <td>{regionMap[application.region as RegionSlug]?.displayName ?? application.region}</td>
                   <td>{application.phone}</td>
                   <td>{application.createdAt.slice(0, 10)}</td>
                   <td><select value={application.status} onChange={(event) => updateApplication(application.id, event.target.value)} aria-label={`${application.name} 신청 상태`}>{Object.entries(applicationLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></td>
@@ -178,7 +178,7 @@ export function AdminDashboard({
             <div className="admin-form-heading"><div><span>{editingCourse ? "EDIT PROGRAM" : "NEW PROGRAM"}</span><h2>{editingCourse ? "교육과정 수정" : "새 과정 등록"}</h2></div>{editingCourse && <button type="button" onClick={() => setEditingCourse(null)}>수정 취소</button>}</div>
             <label><span>과정명</span><input name="title" required defaultValue={editingCourse?.title} /></label>
             <div className="form-grid">
-              <label><span>지역</span><select name="region" defaultValue={editingCourse?.region ?? "jeongseon"}><option value="jeongseon">정선</option><option value="donghae">동해</option><option value="inje">인제</option></select></label>
+              <label><span>지역</span><select name="region" defaultValue={editingCourse?.region ?? "jeongseon"}><option value="jeongseon">정선 GLab</option><option value="donghae">동해 GLab</option><option value="inje">인제 GLab</option><option value="gangneung">강릉 M Campus</option></select></label>
               <label><span>상태</span><select name="status" defaultValue={editingCourse?.status ?? "planned"}><option value="open">모집중</option><option value="planned">모집예정</option><option value="closed">마감</option></select></label>
               <label><span>분야</span><input name="category" required placeholder="AI 실무" defaultValue={editingCourse?.category} /></label>
               <label><span>운영 방식</span><input name="format" required placeholder="오프라인 + LMS" defaultValue={editingCourse?.format} /></label>
@@ -196,7 +196,7 @@ export function AdminDashboard({
           <div className="admin-course-list">
             {courses.map((course) => (
               <article key={course.id}>
-                <div><span>{regionMap[course.region as RegionSlug]?.koreanName} · {course.category}</span><h3>{course.title}</h3><p>{course.summary}</p></div>
+                <div><span>{regionMap[course.region as RegionSlug]?.displayName} · {course.category}</span><h3>{course.title}</h3><p>{course.summary}</p></div>
                 <div className="admin-item-actions"><span className={`status status--${course.status}`}>{courseStatusLabel(course.status)}</span><button type="button" onClick={() => { setEditingCourse(course); setMessage("수정할 과정 정보를 불러왔습니다."); }}>수정</button><button type="button" onClick={() => toggleCourse(course)}>{course.published ? "공개 중" : "비공개"}</button></div>
               </article>
             ))}

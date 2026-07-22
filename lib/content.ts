@@ -2,12 +2,14 @@ export const LMS_URL =
   process.env.NEXT_PUBLIC_LMS_URL ??
   "https://aux-lead-lms.mini293920.workers.dev";
 
-export type RegionSlug = "jeongseon" | "donghae" | "inje";
+export type RegionSlug = "jeongseon" | "donghae" | "inje" | "gangneung";
 
 export type RegionInfo = {
   slug: RegionSlug;
   name: string;
   koreanName: string;
+  displayName: string;
+  hubType: "GLab" | "M Campus";
   shortCode: string;
   eyebrow: string;
   headline: string;
@@ -21,6 +23,9 @@ export type RegionInfo = {
   image: string;
   imagePosition: string;
   logo: string;
+  logoDark?: string;
+  logoWidth?: number;
+  logoHeight?: number;
 };
 
 export const regions: RegionInfo[] = [
@@ -28,6 +33,8 @@ export const regions: RegionInfo[] = [
     slug: "jeongseon",
     name: "Jeongseon GLab",
     koreanName: "정선",
+    displayName: "정선 GLab",
+    hubType: "GLab",
     shortCode: "JS",
     eyebrow: "TOURISM · FESTIVAL · LOCAL VALUE",
     headline: "관광·축제 산업을 통해 정주가치·특화가치·번영가치를 만듭니다",
@@ -46,11 +53,14 @@ export const regions: RegionInfo[] = [
     image: "/images/glab-hero.png",
     imagePosition: "center",
     logo: "/brand/glab-jeongseon.png",
+    logoDark: "/brand/glab-jeongseon-dark.png",
   },
   {
     slug: "donghae",
     name: "Donghae GLab",
     koreanName: "동해",
+    displayName: "동해 GLab",
+    hubType: "GLab",
     shortCode: "DH",
     eyebrow: "AI TRANSFORMATION · PRACTICAL MEDIA",
     headline: "GLab 플랫폼 기반 동해시 AI 전환 생태계를 조성합니다",
@@ -69,11 +79,14 @@ export const regions: RegionInfo[] = [
     image: "/images/glab-digital-lab.jpg",
     imagePosition: "center",
     logo: "/brand/glab-donghae.png",
+    logoDark: "/brand/glab-donghae-dark.png",
   },
   {
     slug: "inje",
     name: "Inje GLab",
     koreanName: "인제",
+    displayName: "인제 GLab",
+    hubType: "GLab",
     shortCode: "IJ",
     eyebrow: "HEALTH · LIFECARE · COMMUNITY",
     headline: "인제 맞춤형 헬스 라이프케어로 지역 정주생태계를 조성합니다",
@@ -92,6 +105,34 @@ export const regions: RegionInfo[] = [
     image: "/images/glab-hero.png",
     imagePosition: "60% center",
     logo: "/brand/glab-inje.png",
+    logoDark: "/brand/glab-inje-dark.png",
+  },
+  {
+    slug: "gangneung",
+    name: "Gangneung M Campus",
+    koreanName: "강릉",
+    displayName: "강릉 M Campus",
+    hubType: "M Campus",
+    shortCode: "GN",
+    eyebrow: "REGIONAL CONNECTION · EDUCATION · COLLABORATION",
+    headline: "지역과 대학을 연결하는 강릉 교육 거점을 만들어갑니다",
+    description:
+      "한림 M Campus@강릉은 지역의 교육 수요와 한림대학교의 역량을 연결하는 지역 연계 거점입니다. 교육과 협력 프로그램의 세부 일정은 확정되는 대로 안내합니다.",
+    address: "강릉시 지역 연계 교육공간",
+    contact: "세부 사업·모집 일정은 알림마당에서 안내",
+    color: "#075DAA",
+    paleColor: "#EAF4FC",
+    focus: ["지역 연계 교육", "대학·지역 협력", "교육 프로그램 운영"],
+    stats: [
+      { value: "강릉", label: "지역 교육 거점" },
+      { value: "연계", label: "대학·지역 협력" },
+      { value: "예정", label: "세부 교육 안내" },
+    ],
+    image: "/images/glab-hero.png",
+    imagePosition: "center",
+    logo: "/brand/m-campus-gangneung.png",
+    logoWidth: 334,
+    logoHeight: 90,
   },
 ];
 
@@ -406,7 +447,7 @@ export const fallbackNotices = [
     category: "운영",
     title: "G-Lab 통합 지원 플랫폼 이용 안내",
     content:
-      "G-Lab 통합 지원 플랫폼은 정선·동해·인제의 과정 안내, 모집·신청, 일정, 운영 성과와 수강후기를 한곳에서 확인하기 위해 구축했습니다.\n\n지역 지도와 교육과정 메뉴에서 공개된 프로그램을 확인할 수 있습니다. 실제 모집이 시작된 과정만 신청 버튼이 활성화되며, 세부 일정이 확정되지 않은 과정은 알림마당에서 먼저 안내합니다. 선발 이후 온라인 학습과 자료·과제·수료 현황은 통합 LMS에서 이어집니다.",
+      "G-Lab 통합 지원 플랫폼은 정선·동해·인제 G-Lab과 강릉 M Campus의 과정 안내, 모집·신청, 일정, 운영 성과와 수강후기를 한곳에서 확인하기 위해 구축했습니다.\n\n지역 지도와 교육과정 메뉴에서 공개된 프로그램을 확인할 수 있습니다. 실제 모집이 시작된 과정만 신청 버튼이 활성화되며, 세부 일정이 확정되지 않은 과정은 알림마당에서 먼저 안내합니다. 선발 이후 온라인 학습과 자료·과제·수료 현황은 통합 LMS에서 이어집니다.",
     published: true,
     createdAt: "2026-07-21 08:40:00",
   },

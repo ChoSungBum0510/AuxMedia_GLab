@@ -44,20 +44,25 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.match(html, /정선/);
   assert.match(html, /동해/);
   assert.match(html, /인제/);
+  assert.match(html, /강릉/);
   assert.match(html, /\/brand\/hallym-glab\.png/);
   assert.match(html, /\/brand\/gangwon-map-clean\.png/);
   assert.match(html, /\/brand\/glab-jeongseon\.png/);
   assert.match(html, /\/brand\/glab-donghae\.png/);
   assert.match(html, /\/brand\/glab-inje\.png/);
+  assert.match(html, /\/brand\/m-campus-gangneung\.png/);
   assert.match(html, /href="\/regions\/jeongseon"/);
   assert.match(html, /href="\/regions\/donghae"/);
   assert.match(html, /href="\/regions\/inje"/);
+  assert.match(html, /href="\/regions\/gangneung"/);
   assert.match(html, /href="\/about"/);
   assert.match(html, /map-region-shape--jeongseon/);
   assert.match(html, /map-region-shape--donghae/);
   assert.match(html, /map-region-shape--inje/);
+  assert.match(html, /map-region-shape--gangneung/);
   assert.doesNotMatch(html, /map-pin__dot|map-pin__pulse/);
-  assert.doesNotMatch(html, /G:Lab|M Campus|엠 캠퍼스|chatgpt/i);
+  assert.doesNotMatch(html, /G:Lab|엠 캠퍼스|chatgpt/i);
+  assert.match(html, /M Campus/);
   assert.match(html, /통합 LMS 바로가기/);
   assert.match(html, /지속형 교육체계로/);
   assert.match(html, /28H/);
@@ -85,8 +90,10 @@ test("renders the GLab introduction page with the promotional video", async () =
   assert.match(html, /HALLYM REGIONAL INNOVATION/);
   assert.doesNotMatch(html, /about-hero__signal|hallym-university\.png|COMMUNITY/);
   assert.match(html, /href="\/regions\/jeongseon"/);
+  assert.match(html, /href="\/regions\/gangneung"/);
   assert.match(html, /href="\/courses"/);
-  assert.doesNotMatch(html, /M Campus|엠 캠퍼스|chatgpt/i);
+  assert.match(html, /M Campus/);
+  assert.doesNotMatch(html, /엠 캠퍼스|chatgpt/i);
 });
 
 test("renders platform-independent login and all regional detail routes", async () => {
@@ -103,9 +110,14 @@ test("renders platform-independent login and all regional detail routes", async 
     assert.match(await response.text(), new RegExp(`/brand/glab-${region}\\.png`));
   }
 
+  const gangneung = await render("/regions/gangneung");
+  assert.equal(gangneung.status, 200);
+  assert.match(await gangneung.text(), /\/brand\/m-campus-gangneung\.png/);
+
   assert.match(await (await render("/regions/donghae")).text(), /AI 전환 생태계/);
   assert.match(await (await render("/regions/inje")).text(), /헬스 라이프케어/);
   assert.match(await (await render("/regions/jeongseon")).text(), /번영가치/);
+  assert.match(await (await render("/regions/gangneung")).text(), /지역과 대학을 연결하는 강릉 교육 거점/);
 });
 
 test("renders a clickable, searchable notice board and notice detail", async () => {
@@ -172,6 +184,7 @@ test("gives the operator real notice and course create/edit permissions", async 
   assert.match(adminHtml, /담당자 운영 대시보드/);
   assert.match(adminHtml, /공지 관리/);
   assert.match(adminHtml, /교육과정 관리/);
+  assert.match(adminHtml, /강릉 M Campus/);
 
   const createNotice = await fetch(`${origin}/api/admin/notices`, {
     method: "POST",
@@ -192,7 +205,7 @@ test("gives the operator real notice and course create/edit permissions", async 
 
   const coursePayload = {
     title: "담당자 과정 관리 검증",
-    region: "inje",
+    region: "gangneung",
     status: "planned",
     category: "운영 검증",
     format: "오프라인 + LMS",
@@ -202,7 +215,7 @@ test("gives the operator real notice and course create/edit permissions", async 
     courseEnd: "2026-09-10",
     capacity: "20",
     audience: "지역 주민",
-    location: "인제 G-Lab",
+    location: "강릉 M Campus",
     summary: "담당자가 교육과정을 추가하고 수정할 수 있는지 검증하는 과정입니다.",
   };
   const createCourse = await fetch(`${origin}/api/admin/courses`, {

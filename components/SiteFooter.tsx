@@ -24,10 +24,10 @@ export function SiteFooter() {
         </div>
         <div className="footer-links">
           <div>
-            <strong>지역 GLab</strong>
+            <strong>지역 교육 거점</strong>
             <Link href="/about">GLab 소개 · 홍보 영상</Link>
             {regions.map((region) => (
-              <Link key={region.slug} href={`/regions/${region.slug}`}>{region.koreanName}</Link>
+              <Link key={region.slug} href={`/regions/${region.slug}`}>{region.displayName}</Link>
             ))}
           </div>
           <div>

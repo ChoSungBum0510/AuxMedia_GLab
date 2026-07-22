@@ -11,7 +11,7 @@ import {
 } from "../lib/content";
 
 let initialization: Promise<void> | null = null;
-const CONTENT_VERSION = "2026-07-21-final-release-v2";
+const CONTENT_VERSION = "2026-07-22-gangneung-hub-v1";
 
 export async function ensureDatabase() {
   initialization ??= initializeDatabase().catch((error) => {

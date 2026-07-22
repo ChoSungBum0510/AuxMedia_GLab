@@ -34,6 +34,7 @@ export function CourseExplorer({ courses, initialRegion = "all" }: { courses: Co
             <option value="jeongseon">정선</option>
             <option value="donghae">동해</option>
             <option value="inje">인제</option>
+            <option value="gangneung">강릉</option>
           </select>
         </label>
         <label>

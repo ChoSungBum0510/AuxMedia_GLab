@@ -11,7 +11,7 @@ const PROMOTION_VIDEO_EMBED_URL = "https://www.youtube-nocookie.com/embed/zRnJ9b
 
 export const metadata: Metadata = {
   title: "GLab 소개",
-  description: "한림대학교 G-Lab의 지역 협력, 문제 해결형 교육과 정선·동해·인제 활동을 홍보 영상과 함께 소개합니다.",
+  description: "한림대학교 G-Lab의 지역 협력, 문제 해결형 교육과 정선·동해·인제 G-Lab, 강릉 M Campus 활동을 홍보 영상과 함께 소개합니다.",
 };
 
 const values = [
@@ -74,10 +74,10 @@ export default function AboutPage() {
           <div>
             <span className="eyebrow eyebrow--light">REGIONAL CRISIS RESPONSE · G-LAB</span>
             <h1>지역 위기를 기회로 전환하는<br />지역혁신 플랫폼.</h1>
-            <p>한림대학교 G-Lab은 2025년 RISE 사업을 통해 동해·인제·정선을 중심으로 지역혁신 역량강화 플랫폼과 맞춤형 솔루션을 제공하고 있습니다.</p>
+            <p>한림대학교는 정선·동해·인제 G-Lab과 강릉 M Campus를 통해 지역의 수요와 대학의 역량을 연결하는 교육·협력 기반을 넓혀가고 있습니다.</p>
             <div className="hero-actions">
               <Link className="button button--white" href="#promotion-film">홍보 영상 보기 <span>↓</span></Link>
-              <Link className="button button--glass" href="/regions">지역 GLab 만나기 <span>→</span></Link>
+              <Link className="button button--glass" href="/regions">지역 교육 거점 만나기 <span>→</span></Link>
             </div>
           </div>
           <div className="about-hero__brand-mark">
@@ -101,7 +101,7 @@ export default function AboutPage() {
               <span className="eyebrow">GLAB PROMOTION FILM</span>
               <h2>지역과 세계를 잇는<br />혁신의 거점</h2>
             </div>
-            <p>지역의 가치를 발견하고 새로운 가능성을 실현하는 한림대학교의 지역혁신 활동과 정선·동해·인제 G-Lab의 방향을 영상에서 확인해 보세요.</p>
+            <p>지역의 가치를 발견하고 새로운 가능성을 실현하는 한림대학교의 지역혁신 활동과 지역 교육 거점의 방향을 영상에서 확인해 보세요.</p>
           </div>
           <div className="about-video-frame">
             <iframe
@@ -193,9 +193,9 @@ export default function AboutPage() {
       <section className="section section--pale">
         <div className="shell">
           <SectionHeading
-            eyebrow="THREE REGIONAL LABS"
-            title="세 지역에서 이어지는 G-Lab"
-            description="정선·동해·인제의 특화 방향과 교육 성과, 공개된 예정 프로그램을 확인하세요."
+            eyebrow="FOUR REGIONAL HUBS"
+            title="네 지역에서 이어지는 교육과 협력"
+            description="정선·동해·인제 G-Lab과 강릉 M Campus의 특화 방향, 교육 정보와 공개된 예정 프로그램을 확인하세요."
           />
           <div className="about-region-grid">
             {regions.map((region) => (
@@ -206,7 +206,7 @@ export default function AboutPage() {
               >
                 <RegionBadge region={region} />
                 <p>{region.description}</p>
-                <strong>{region.koreanName} GLab 자세히 보기 <span>→</span></strong>
+                <strong>{region.displayName} 자세히 보기 <span>→</span></strong>
               </Link>
             ))}
           </div>

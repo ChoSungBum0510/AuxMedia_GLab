@@ -1,6 +1,6 @@
 import { textValue } from "./http";
 
-const regions = new Set(["jeongseon", "donghae", "inje"]);
+const regions = new Set(["jeongseon", "donghae", "inje", "gangneung"]);
 const statuses = new Set(["open", "planned", "closed"]);
 const datePattern = /^\d{4}-\d{2}-\d{2}$/u;
 

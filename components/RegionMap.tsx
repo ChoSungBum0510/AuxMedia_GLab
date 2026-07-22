@@ -44,12 +44,21 @@ const geometry: Record<RegionSlug, RegionGeometry> = {
     shapeHeight: "28.48%",
     clipPath: "polygon(82.83% 0.00%,79.47% 0.91%,75.00% 6.67%,76.88% 18.22%,75.00% 20.37%,66.82% 20.68%,62.70% 15.80%,50.41% 14.29%,45.17% 16.40%,36.94% 12.78%,29.47% 16.71%,25.00% 10.04%,21.65% 12.15%,21.65% 17.31%,18.29% 20.68%,19.05% 27.95%,17.17% 28.58%,13.47% 26.44%,13.06% 32.23%,11.59% 34.06%,4.88% 31.92%,1.12% 35.57%,2.24% 38.90%,0.00% 44.07%,3.35% 47.12%,7.88% 46.80%,11.94% 52.60%,11.23% 55.93%,16.82% 68.71%,20.53% 71.14%,14.58% 77.53%,15.29% 83.92%,20.53% 86.62%,27.24% 85.74%,28.35% 89.08%,32.47% 92.10%,44.05% 92.10%,50.76% 84.83%,59.71% 84.83%,70.53% 95.47%,79.12% 93.64%,85.06% 95.75%,85.47% 100.00%,88.06% 97.89%,87.70% 84.83%,76.47% 68.40%,78.76% 60.50%,75.76% 57.44%,75.76% 54.11%,78.00% 47.72%,81.71% 45.29%,82.47% 38.90%,92.17% 32.51%,98.53% 33.74%,100.00% 26.44%,97.76% 20.05%,100.00% 14.61%,95.88% 14.29%,92.94% 10.04%,86.94% 10.64%,85.06% 9.73%)",
   },
+  gangneung: {
+    top: "57.32%",
+    left: "77.97%",
+    shapeTop: "44.59%",
+    shapeLeft: "67.33%",
+    shapeWidth: "21.37%",
+    shapeHeight: "24.85%",
+    clipPath: "polygon(1.37% 16.03%,0.00% 22.65%,3.09% 33.10%,17.53% 38.68%,22.68% 39.02%,33.33% 49.13%,36.08% 64.11%,30.24% 69.69%,30.24% 75.61%,25.77% 82.58%,19.93% 85.37%,20.27% 91.64%,26.46% 94.77%,29.90% 92.68%,42.61% 94.08%,46.05% 99.65%,52.58% 99.65%,53.95% 96.86%,52.23% 85.37%,58.42% 75.96%,62.89% 78.05%,63.57% 87.11%,70.79% 87.80%,74.23% 93.03%,80.41% 91.64%,87.63% 92.33%,99.66% 82.58%,92.78% 72.82%,92.44% 62.37%,85.22% 49.83%,54.30% 19.16%,51.89% 13.24%,51.89% 6.27%,47.77% 0.00%,28.18% 5.23%,16.49% 11.15%,9.97% 10.10%,5.15% 16.38%)",
+  },
 };
 
 export function RegionMap() {
   return (
     <div className="region-map-layout">
-      <div className="map-stage" aria-label="GLab 교육 지역 지도">
+      <div className="map-stage" aria-label="한림대학교 지역 교육 거점 지도">
         <div className="map-canvas">
           <Image
             className="map-base"
@@ -80,15 +89,15 @@ export function RegionMap() {
                   href={`/regions/${region.slug}`}
                   className={`map-region-shape map-region-shape--${region.slug}`}
                   style={shapeStyle}
-                  aria-label={`${region.koreanName} 행정구역에서 운영 중인 GLab 교육 보기`}
+                  aria-label={`${region.koreanName} 행정구역의 ${region.displayName} 교육 보기`}
                 >
-                  <span className="sr-only">{region.koreanName} GLab 교육 상세 보기</span>
+                  <span className="sr-only">{region.displayName} 교육 상세 보기</span>
                 </Link>
                 <Link
                   href={`/regions/${region.slug}`}
                   className={`map-pin map-pin--${region.slug}`}
                   style={pinStyle}
-                  aria-label={`${region.koreanName} GLab 교육 상세 보기`}
+                  aria-label={`${region.displayName} 교육 상세 보기`}
                 >
                   <RegionBadge region={region} compact />
                   <small>{region.koreanName} 교육과정 보기 →</small>
@@ -99,7 +108,7 @@ export function RegionMap() {
         </div>
       </div>
       <div className="map-region-list">
-        <span className="eyebrow">3 REGIONAL LABS</span>
+        <span className="eyebrow">4 REGIONAL HUBS</span>
         <h3>지역을 선택하면<br />교육이 보입니다.</h3>
         <p>지도에서 행정구역이나 지역 로고를 누르면 모집 과정, 일정, 교육 장소와 수강후기를 한 번에 확인할 수 있습니다.</p>
         <div className="map-region-list__items">

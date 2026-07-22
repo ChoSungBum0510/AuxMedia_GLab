@@ -25,7 +25,7 @@ export default async function HomePage() {
         <div className="home-hero__content shell">
           <span className="hero-kicker">HALLYM REGIONAL INNOVATION PLATFORM</span>
           <h1>지역이 변하는 순간,<br /><span className="home-hero__brand-line"><BrandLogo className="official-brand--hero" dark /><span>이 함께합니다.</span></span></h1>
-          <p>정선·동해·인제의 지역 현안과 한림대학교의 역량을 연결하는 교육·연구·협력 활동을 한곳에서 만나보세요.</p>
+          <p>정선·동해·인제 G-Lab과 강릉 M Campus가 지역의 수요와 한림대학교의 역량을 연결하는 교육·연구·협력 활동을 한곳에서 만나보세요.</p>
           <div className="hero-actions">
             <Link className="button button--white" href="#regional-map">지역 교육 찾기 <span>↓</span></Link>
             <Link className="button button--glass" href="/courses">교육·활동 보기 <span>→</span></Link>
@@ -47,7 +47,7 @@ export default async function HomePage() {
           <div><span className="eyebrow">ONE GLAB PLATFORM</span><h2>지속형 교육체계로<br />전환하는 첫 시작.</h2></div>
           <p>과정 안내와 신청, 일정, 참여·수료 성과를 통합하고 기초·심화·프로젝트 학습이 끊김 없이 이어지게 합니다.</p>
           <div className="intro-metrics">
-            <div><strong>3</strong><span>지역 GLab</span></div>
+            <div><strong>4</strong><span>지역 교육 거점</span></div>
             <div><strong>28H</strong><span>동해 AI 미디어</span></div>
             <div><strong>42H</strong><span>정선 청소년 드론</span></div>
           </div>
@@ -56,7 +56,7 @@ export default async function HomePage() {
 
       <section className="map-section section" id="regional-map">
         <div className="shell">
-          <SectionHeading eyebrow="GLAB ACROSS GANGWON" title="지도로 만나는 지역 GLab" description="현재 GLab이 교육을 운영하는 세 지역입니다. 원하는 지역을 선택해 교육과정과 활동을 확인하세요." />
+          <SectionHeading eyebrow="REGIONAL HUBS ACROSS GANGWON" title="지도로 만나는 지역 교육 거점" description="정선·동해·인제 G-Lab과 강릉 M Campus를 선택해 교육과정과 활동을 확인하세요." />
           <RegionMap />
         </div>
       </section>

@@ -17,6 +17,7 @@ export const courses = sqliteTable("courses", {
   courseEnd: text("course_end").notNull(),
   capacity: integer("capacity").notNull().default(20),
   location: text("location").notNull(),
+  platformUrl: text("platform_url").notNull().default(""),
   curriculum: text("curriculum").notNull().default("[]"),
   outcomes: text("outcomes").notNull().default("[]"),
   published: integer("published", { mode: "boolean" }).notNull().default(true),

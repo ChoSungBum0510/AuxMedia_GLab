@@ -11,7 +11,7 @@ import {
 } from "../lib/content";
 
 let initialization: Promise<void> | null = null;
-const CONTENT_VERSION = "2026-07-22-gangneung-hub-v1";
+const CONTENT_VERSION = "2026-07-22-course-platform-v1";
 
 export async function ensureDatabase() {
   initialization ??= initializeDatabase().catch((error) => {
@@ -40,6 +40,7 @@ async function initializeDatabase() {
       course_end TEXT NOT NULL,
       capacity INTEGER NOT NULL DEFAULT 20,
       location TEXT NOT NULL,
+      platform_url TEXT NOT NULL DEFAULT '',
       curriculum TEXT NOT NULL DEFAULT '[]',
       outcomes TEXT NOT NULL DEFAULT '[]',
       published INTEGER NOT NULL DEFAULT 1,
@@ -97,6 +98,11 @@ async function initializeDatabase() {
     )`),
   ]);
 
+  const courseColumns = await d1.prepare("PRAGMA table_info(courses)").all<{ name: string }>();
+  if (!courseColumns.results.some((column) => column.name === "platform_url")) {
+    await d1.prepare("ALTER TABLE courses ADD COLUMN platform_url TEXT NOT NULL DEFAULT ''").run();
+  }
+
   const contentVersion = await d1
     .prepare("SELECT metadata_value AS value FROM content_metadata WHERE metadata_key = 'content_version'")
     .first<{ value: string }>();
@@ -112,8 +118,8 @@ async function initializeDatabase() {
           .prepare(`INSERT INTO courses (
             slug, region, title, summary, category, audience, format, status,
             application_start, application_end, course_start, course_end,
-            capacity, location, curriculum, outcomes, published
-          ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)`)
+            capacity, location, platform_url, curriculum, outcomes, published
+          ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)`)
           .bind(
             course.slug,
             course.region,
@@ -129,6 +135,7 @@ async function initializeDatabase() {
             course.courseEnd,
             course.capacity,
             course.location,
+            course.platformUrl ?? "",
             JSON.stringify(course.curriculum),
             JSON.stringify(course.outcomes),
             course.published ? 1 : 0,
@@ -199,8 +206,8 @@ async function migrateToCurrentContent() {
         .prepare(`INSERT INTO courses (
           slug, region, title, summary, category, audience, format, status,
           application_start, application_end, course_start, course_end,
-          capacity, location, curriculum, outcomes, published
-        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)
+          capacity, location, platform_url, curriculum, outcomes, published
+        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)
         ON CONFLICT(slug) DO UPDATE SET
           region = excluded.region,
           title = excluded.title,
@@ -215,6 +222,7 @@ async function migrateToCurrentContent() {
           course_end = excluded.course_end,
           capacity = excluded.capacity,
           location = excluded.location,
+          platform_url = excluded.platform_url,
           curriculum = excluded.curriculum,
           outcomes = excluded.outcomes,
           published = excluded.published,
@@ -234,6 +242,7 @@ async function migrateToCurrentContent() {
           course.courseEnd,
           course.capacity,
           course.location,
+          course.platformUrl ?? "",
           JSON.stringify(course.curriculum),
           JSON.stringify(course.outcomes),
           course.published ? 1 : 0,

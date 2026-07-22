@@ -189,6 +189,7 @@ export function AdminDashboard({
               <label><span>정원</span><input type="number" name="capacity" min="1" max="500" defaultValue={editingCourse?.capacity ?? 20} required /></label>
               <label><span>대상</span><input name="audience" required defaultValue={editingCourse?.audience} /></label>
               <label className="form-grid__full"><span>장소</span><input name="location" required defaultValue={editingCourse?.location} /></label>
+              <label className="form-grid__full"><span>개별 교육 플랫폼 URL (선택)</span><input type="url" name="platformUrl" placeholder="https://example.workers.dev/" defaultValue={editingCourse?.platformUrl} /></label>
               <label className="form-grid__full"><span>과정 소개</span><textarea name="summary" rows={5} required defaultValue={editingCourse?.summary} /></label>
             </div>
             <button className="button">{editingCourse ? "변경사항 저장" : "과정 등록하기"}</button>

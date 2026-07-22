@@ -70,7 +70,7 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.match(html, /지속형 교육체계로/);
   assert.match(html, /28H/);
   assert.match(html, /42H/);
-  assert.doesNotMatch(html, /연간 교육과정|누적 학습자|496|김민지|박준호|이서윤/);
+  assert.doesNotMatch(html, /연간 교육과정|누적 학습자|>\s*496\s*<\/|김민지|박준호|이서윤/u);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
   assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   assert.equal(response.headers.get("x-frame-options"), "DENY");
@@ -162,6 +162,17 @@ test("server-renders the public course directory", async () => {
   assert.doesNotMatch(html, /로컬 콘텐츠 크리에이터|AI 생활문제 해결랩|해양관광 콘텐츠 스튜디오|로컬브랜드 메이커스/);
 });
 
+test("links the Donghae youth drone camp to its dedicated platform", async () => {
+  const response = await render("/courses/donghae-youth-drone-camp-2026");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /동해시 청소년센터 드론 캠프/);
+  assert.match(html, /교육 플랫폼 바로가기/);
+  assert.match(html, /href="https:\/\/aux-media-dh-web\.mini293920\.workers\.dev\/"/);
+  assert.match(html, /target="_blank"/);
+  assert.match(html, /rel="noreferrer"/);
+});
+
 test("keeps internal source wording out of public pages", async () => {
   const forbidden = /공식\s*(?:자료|운영)|운영\s*자료|CONTENT BASIS|VERIFIED PROGRAMS|OFFICIAL FILM/i;
   for (const path of ["/", "/about", "/courses", "/regions", "/reviews", "/notices"]) {
@@ -219,6 +230,7 @@ test("gives the operator real notice and course create/edit permissions", async 
     capacity: "20",
     audience: "지역 주민",
     location: "강릉 M Campus",
+    platformUrl: "https://course-platform.example/",
     summary: "담당자가 교육과정을 추가하고 수정할 수 있는지 검증하는 과정입니다.",
   };
   const createCourse = await fetch(`${origin}/api/admin/courses`, {
@@ -229,6 +241,7 @@ test("gives the operator real notice and course create/edit permissions", async 
   assert.equal(createCourse.status, 201);
   const { course } = await createCourse.json();
   assert.ok(course?.id);
+  assert.equal(course.platformUrl, coursePayload.platformUrl);
 
   const updateCourse = await fetch(`${origin}/api/admin/courses/${course.id}`, {
     method: "PATCH",
@@ -236,5 +249,7 @@ test("gives the operator real notice and course create/edit permissions", async 
     body: JSON.stringify({ ...coursePayload, title: "담당자 과정 관리 검증 수정" }),
   });
   assert.equal(updateCourse.status, 200);
-  assert.equal((await updateCourse.json()).course.title, "담당자 과정 관리 검증 수정");
+  const updatedCourse = (await updateCourse.json()).course;
+  assert.equal(updatedCourse.title, "담당자 과정 관리 검증 수정");
+  assert.equal(updatedCourse.platformUrl, coursePayload.platformUrl);
 });

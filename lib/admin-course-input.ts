@@ -13,6 +13,7 @@ export type AdminCourseInput = {
   format: string;
   audience: string;
   location: string;
+  platformUrl: string;
   applicationStart: string;
   applicationEnd: string;
   courseStart: string;
@@ -30,12 +31,22 @@ export function parseAdminCourseInput(body: Record<string, unknown>): { ok: true
     format: textValue(body.format, 60),
     audience: textValue(body.audience, 100),
     location: textValue(body.location, 150),
+    platformUrl: textValue(body.platformUrl, 500),
     applicationStart: textValue(body.applicationStart, 10),
     applicationEnd: textValue(body.applicationEnd, 10),
     courseStart: textValue(body.courseStart, 10),
     courseEnd: textValue(body.courseEnd, 10),
     capacity: Number(body.capacity),
   };
+  if (data.platformUrl) {
+    try {
+      if (new URL(data.platformUrl).protocol !== "https:") {
+        return { ok: false, error: "교육 플랫폼 주소는 https://로 시작하는 올바른 주소를 입력해 주세요." };
+      }
+    } catch {
+      return { ok: false, error: "교육 플랫폼 주소는 https://로 시작하는 올바른 주소를 입력해 주세요." };
+    }
+  }
   if (
     !data.title || !data.summary || !data.category || !data.format || !data.audience || !data.location ||
     !regions.has(data.region) || !statuses.has(data.status) ||

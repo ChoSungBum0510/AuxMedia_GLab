@@ -159,6 +159,7 @@ export type SeedCourse = {
   courseEnd: string;
   capacity: number;
   location: string;
+  platformUrl?: string;
   curriculum: string[];
   outcomes: string[];
   published: boolean;
@@ -212,6 +213,7 @@ export const seedCourses: SeedCourse[] = [
     courseEnd: "2026-08-08",
     capacity: 30,
     location: "동해시 청소년센터",
+    platformUrl: "https://aux-media-dh-web.mini293920.workers.dev/",
     curriculum: [
       "드론 기초 안전과 조작 원리",
       "슈퍼볼 활동을 통한 드론 스포츠 실습",
@@ -362,6 +364,7 @@ export function getCourseDisplayInfo(course: {
 export const fallbackCourseRecords = seedCourses.map((course, index) => ({
   ...course,
   id: index + 1,
+  platformUrl: course.platformUrl ?? "",
   curriculum: JSON.stringify(course.curriculum),
   outcomes: JSON.stringify(course.outcomes),
   createdAt: "2026-07-21 09:00:00",

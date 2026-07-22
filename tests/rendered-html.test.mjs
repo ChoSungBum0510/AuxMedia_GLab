@@ -55,6 +55,9 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.match(html, /href="\/regions\/donghae"/);
   assert.match(html, /href="\/regions\/inje"/);
   assert.match(html, /href="\/regions\/gangneung"/);
+  const visibleRegionOrder = ["donghae", "inje", "jeongseon", "gangneung"].map((region) => html.indexOf(`href="/regions/${region}"`));
+  assert.ok(visibleRegionOrder.every((position) => position >= 0));
+  assert.deepEqual(visibleRegionOrder, [...visibleRegionOrder].sort((a, b) => a - b));
   assert.match(html, /href="\/about"/);
   assert.match(html, /map-region-shape--jeongseon/);
   assert.match(html, /map-region-shape--donghae/);

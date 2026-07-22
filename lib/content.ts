@@ -28,6 +28,8 @@ export type RegionInfo = {
   logoHeight?: number;
 };
 
+const regionDisplayOrder: RegionSlug[] = ["donghae", "inje", "jeongseon", "gangneung"];
+
 export const regions: RegionInfo[] = [
   {
     slug: "jeongseon",
@@ -134,7 +136,9 @@ export const regions: RegionInfo[] = [
     logoWidth: 334,
     logoHeight: 90,
   },
-];
+].sort(
+  (a, b) => regionDisplayOrder.indexOf(a.slug) - regionDisplayOrder.indexOf(b.slug),
+);
 
 export const regionMap = Object.fromEntries(
   regions.map((region) => [region.slug, region]),

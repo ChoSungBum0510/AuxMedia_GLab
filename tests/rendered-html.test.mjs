@@ -51,6 +51,7 @@ test("server-renders the GLab homepage with core navigation", async () => {
   assert.match(html, /\/brand\/glab-donghae\.png/);
   assert.match(html, /\/brand\/glab-inje\.png/);
   assert.match(html, /\/brand\/m-campus-gangneung\.png/);
+  assert.match(html, /region-badge--gangneung/);
   assert.match(html, /href="\/regions\/jeongseon"/);
   assert.match(html, /href="\/regions\/donghae"/);
   assert.match(html, /href="\/regions\/inje"/);
@@ -115,7 +116,9 @@ test("renders platform-independent login and all regional detail routes", async 
 
   const gangneung = await render("/regions/gangneung");
   assert.equal(gangneung.status, 200);
-  assert.match(await gangneung.text(), /\/brand\/m-campus-gangneung\.png/);
+  const gangneungHtml = await gangneung.text();
+  assert.match(gangneungHtml, /\/brand\/m-campus-gangneung\.png/);
+  assert.match(gangneungHtml, /region-badge--gangneung/);
 
   assert.match(await (await render("/regions/donghae")).text(), /AI 전환 생태계/);
   assert.match(await (await render("/regions/inje")).text(), /헬스 라이프케어/);

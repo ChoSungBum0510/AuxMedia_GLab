@@ -5,7 +5,7 @@ export function RegionBadge({ region, compact = false, dark = false }: { region:
   const useFilteredDarkLogo = dark && !region.logoDark;
   return (
     <span
-      className={`region-badge${compact ? " region-badge--compact" : ""}${useFilteredDarkLogo ? " region-badge--filtered-dark" : ""}`}
+      className={`region-badge region-badge--${region.slug}${compact ? " region-badge--compact" : ""}${useFilteredDarkLogo ? " region-badge--filtered-dark" : ""}`}
       aria-label={region.displayName}
     >
       <Image
